@@ -25,7 +25,7 @@ class BudgetApp:
         self.language_button = ttk.Button(self.master, text="Change Language", command=self.change_language)
         self.language_button.pack()
 
-        self.expense_label = ttk.Label(self.master, text="Expense Amount:")
+        self.expense_label = ttk.Label(self.master, text="Expense Amounts:")
         self.expense_label.pack()
         self.expense_entry = ttk.Entry(self.master)
         self.expense_entry.pack()
