@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+from PIL import Image, ImageTk
 
 class Expense:
     def __init__(self, date, amount, category):
@@ -57,29 +58,39 @@ class ExpenseTrackerApp:
         self.root.geometry("500x1000")
 
         # Load background image
-        self.background_image = tk.PhotoImage(file="background.png")
+        self.background_image = ImageTk.PhotoImage(Image.open("background.png"))
         
         # Create Canvas and place the background image
         self.canvas = tk.Canvas(self.root, width=500, height=1000)
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_image(0, 0, image=self.background_image, anchor="nw")
 
+        self.load_and_resize_images()
         self.create_widgets()
 
+    def load_and_resize_images(self):
+        self.date_image = ImageTk.PhotoImage(Image.open("date_label.png").resize((100, 20), Image.Resampling.LANCZOS))
+        self.amount_image = ImageTk.PhotoImage(Image.open("amount_label.png").resize((100, 20), Image.Resampling.LANCZOS))
+        self.category_image = ImageTk.PhotoImage(Image.open("category_label.png").resize((100, 20), Image.Resampling.LANCZOS))
+        self.add_button_image = ImageTk.PhotoImage(Image.open("add_button.png").resize((150, 25), Image.Resampling.LANCZOS))
+        self.view_all_button_image = ImageTk.PhotoImage(Image.open("view_all_button.png").resize((150, 25), Image.Resampling.LANCZOS))
+        self.view_by_category_button_image = ImageTk.PhotoImage(Image.open("view_by_category_button.png").resize((150, 25), Image.Resampling.LANCZOS))
+        self.view_total_button_image = ImageTk.PhotoImage(Image.open("view_total_button.png").resize((150, 25), Image.Resampling.LANCZOS))
+
     def create_widgets(self):
-        self.date_label = tk.Label(self.root, text="Date (YYYY-MM-DD):")
+        self.date_label = tk.Label(self.root, image=self.date_image)
         self.date_entry = tk.Entry(self.root)
 
-        self.amount_label = tk.Label(self.root, text="Amount:")
+        self.amount_label = tk.Label(self.root, image=self.amount_image)
         self.amount_entry = tk.Entry(self.root)
 
-        self.category_label = tk.Label(self.root, text="Category:")
+        self.category_label = tk.Label(self.root, image=self.category_image)
         self.category_entry = tk.Entry(self.root)
 
-        self.add_button = tk.Button(self.root, text="Add Expense", command=self.add_expense)
-        self.view_all_button = tk.Button(self.root, text="View All Expenses", command=self.view_expenses)
-        self.view_by_category_button = tk.Button(self.root, text="View by Category", command=self.view_expenses_by_category)
-        self.view_total_button = tk.Button(self.root, text="View Total Expenses", command=self.view_total_expenses)
+        self.add_button = tk.Button(self.root, image=self.add_button_image, command=self.add_expense)
+        self.view_all_button = tk.Button(self.root, image=self.view_all_button_image, command=self.view_expenses)
+        self.view_by_category_button = tk.Button(self.root, image=self.view_by_category_button_image, command=self.view_expenses_by_category)
+        self.view_total_button = tk.Button(self.root, image=self.view_total_button_image, command=self.view_total_expenses)
 
         self.tree = ttk.Treeview(self.root, columns=("date", "amount", "category"), show='headings')
         self.tree.heading("date", text="Date")
