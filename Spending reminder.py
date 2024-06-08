@@ -6,7 +6,7 @@ class ReminderApp:
     def __init__(self, master):
         self.master = master
         self.master.title("Spending Reminder")
-        self.master.geometry("400x200")
+        self.master.geometry("500x800")
         self.master.configure(background="#f0f0f0")
 
         self.label = tk.Label(self.master, text="Spending Reminder", font=("Arial", 16), pady=10)
