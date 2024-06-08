@@ -21,8 +21,8 @@ def update_ui_with_translation(target_language):
 
 root = tk.Tk()
 root.title("Budget Counter")
-root.geometry("400x200")
-root.configure(background="pink")  # Set background color
+root.geometry("500x800")
+root.configure(background="white")  # Set background color
 
 style = ttk.Style()
 style.configure('TButton', font=('Arial', 12), padding=5)
