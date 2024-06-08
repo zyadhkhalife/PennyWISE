@@ -6,11 +6,11 @@ class BudgetApp:
     def __init__(self, master):
         self.master = master
         self.master.title("Budget Counter")
-        self.master.geometry("400x300")
+        self.master.geometry("500x800")
         self.master.configure(background="#f0f0f0")
 
         self.style = ttk.Style()
-        self.style.configure('TButton', font=('Arial', 12), padding=5)
+        self.style.configure('TButton', font=('Arial', 12), padding=5 , background='#6dbd81', foreground='green')
         self.style.configure('TLabel', font=('Arial', 16), padding=10)
 
         self.language_var = tk.StringVar()
