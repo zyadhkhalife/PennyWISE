@@ -60,53 +60,47 @@ class ExpenseTrackerApp:
         self.create_widgets()
 
     def create_widgets(self):
-        
         self.date_label = tk.Label(self.root, text="Date (YYYY-MM-DD):")
-        self.date_label.grid(row=0, column=0, padx=10, pady=10)
+        self.date_label.grid(row=0, column=0, padx=5, pady=5, sticky='e')
         self.date_entry = tk.Entry(self.root)
-        self.date_entry.grid(row=0, column=1, padx=10, pady=10)
+        self.date_entry.grid(row=0, column=1, padx=5, pady=5, sticky='w')
 
-        
         self.amount_label = tk.Label(self.root, text="Amount:")
-        self.amount_label.grid(row=1, column=0, padx=10, pady=10)
+        self.amount_label.grid(row=1, column=0, padx=5, pady=5, sticky='e')
         self.amount_entry = tk.Entry(self.root)
-        self.amount_entry.grid(row=1, column=1, padx=10, pady=10)
+        self.amount_entry.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
-        
         self.category_label = tk.Label(self.root, text="Category:")
-        self.category_label.grid(row=2, column=0, padx=10, pady=10)
+        self.category_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
         self.category_entry = tk.Entry(self.root)
-        self.category_entry.grid(row=2, column=1, padx=10, pady=10)
+        self.category_entry.grid(row=2, column=1, padx=5, pady=5, sticky='w')
 
-        
         self.description_label = tk.Label(self.root, text="Description:")
-        self.description_label.grid(row=3, column=0, padx=10, pady=10)
+        self.description_label.grid(row=3, column=0, padx=5, pady=5, sticky='e')
         self.description_entry = tk.Entry(self.root)
-        self.description_entry.grid(row=3, column=1, padx=10, pady=10)
+        self.description_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
-       
         self.add_button = tk.Button(self.root, text="Add Expense", command=self.add_expense)
-        self.add_button.grid(row=4, column=0, columnspan=2, pady=10)
+        self.add_button.grid(row=4, column=0, columnspan=2, pady=5)
 
-        
         self.view_all_button = tk.Button(self.root, text="View All Expenses", command=self.view_expenses)
-        self.view_all_button.grid(row=5, column=0, columnspan=2, pady=10)
+        self.view_all_button.grid(row=5, column=0, columnspan=2, pady=5)
 
-        
         self.view_by_category_button = tk.Button(self.root, text="View by Category", command=self.view_expenses_by_category)
-        self.view_by_category_button.grid(row=6, column=0, columnspan=2, pady=10)
+        self.view_by_category_button.grid(row=6, column=0, columnspan=2, pady=5)
 
-        
         self.view_total_button = tk.Button(self.root, text="View Total Expenses", command=self.view_total_expenses)
-        self.view_total_button.grid(row=7, column=0, columnspan=2, pady=10)
+        self.view_total_button.grid(row=7, column=0, columnspan=2, pady=5)
 
-        
         self.tree = ttk.Treeview(self.root, columns=("date", "amount", "category", "description"), show='headings')
         self.tree.heading("date", text="Date")
         self.tree.heading("amount", text="Amount")
         self.tree.heading("category", text="Category")
         self.tree.heading("description", text="Description")
-        self.tree.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+        self.tree.grid(row=8, column=0, columnspan=2, padx=5, pady=5, sticky='nsew')
+
+        self.root.grid_rowconfigure(8, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
 
     def add_expense(self):
         try:
@@ -122,10 +116,8 @@ class ExpenseTrackerApp:
             messagebox.showerror("Error", f"Invalid input: {e}")
 
     def update_treeview(self):
-        
         for i in self.tree.get_children():
             self.tree.delete(i)
-        
         for expense in self.tracker.list_expenses():
             self.tree.insert("", "end", values=(expense.date, expense.amount, expense.category, expense.description))
 
@@ -136,10 +128,8 @@ class ExpenseTrackerApp:
     def view_expenses_by_category(self):
         category = self.category_entry.get()
         expenses = self.tracker.get_expenses_by_category(category)
-        
         for i in self.tree.get_children():
             self.tree.delete(i)
-        
         for expense in expenses:
             self.tree.insert("", "end", values=(expense.date, expense.amount, expense.category, expense.description))
         messagebox.showinfo(f"Expenses in {category}", f"Expenses in category '{category}' are displayed in the table.")
