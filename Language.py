@@ -9,28 +9,15 @@ def translate_text(text, target_language):
 
 def change_language(event=None):
     selected_language = language_var.get()
-    if selected_language == "English":
-        # Update UI with English translations
-        label.config(text="Budget Counter")
-        language_button.config(text="Change Language")
-    elif selected_language == "Spanish":
-        # Update UI with Spanish translations
-        label.config(text="Contador de presupuesto")
-        language_button.config(text="Cambiar idioma")
+    update_ui_with_translation(selected_language)
 
-def animate_label():
-    original_text = label.cget("text")
-    for _ in range(5):
-        label.config(text="Loading.")
-        root.update()
-        label.after(200)
-        label.config(text="Loading..")
-        root.update()
-        label.after(200)
-        label.config(text="Loading...")
-        root.update()
-        label.after(200)
-    label.config(text=original_text)
+def update_ui_with_translation(target_language):
+    translated_texts = {
+        " Pennywise Budget Counter": translate_text("Pennywise Budget Counter", target_language),
+        "Change Language": translate_text("Change Language", target_language)
+    }
+    label.config(text=translated_texts[" Pennywise Budget Counter"])
+    language_button.config(text=translated_texts["Change Language"])
 
 root = tk.Tk()
 root.title("Budget Counter")
@@ -53,13 +40,12 @@ label.pack()
 language_button = ttk.Button(root, text="Change Language", command=change_language)
 language_button.pack()
 
-animate_button = ttk.Button(root, text="Animate Label", command=animate_label)
-animate_button.pack()
 
 # Bind the change_language function to the Combobox selection event
 language_menu.bind("<<ComboboxSelected>>", change_language)
 
 root.mainloop()
+
 
 
 
