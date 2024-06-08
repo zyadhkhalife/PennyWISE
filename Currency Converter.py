@@ -13,6 +13,7 @@ def clicked():
 window = tk.Tk()
 window.geometry("500x360")
 window.title("Pennywise Converter")
+window.configure(bg='white')  # Set background color to white
 
 label = tk.Label(window, text="Currency Converter", font="Times 20 bold")
 label.place(x=120, y=40)
