@@ -29,6 +29,8 @@ entry2 = tk.Entry(window)
 label3 = tk.Label(window, text="Enter your desired currency:", font="Times 16 bold", bg ='#6dbd81')
 label3.place(x=15, y=200)
 entry3 = tk.Entry(window)
+button_width=100
+button_x = (500 - button_width) // 2
 
 button = tk.Button(window, text="click", font="Times 16 bold", command=clicked, bg ='#6dbd81')
 button.place(x=220, y=250)
