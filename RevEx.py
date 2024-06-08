@@ -55,7 +55,7 @@ class ExpenseTrackerApp:
         self.root = root
         self.root.title("Expense Tracker")
 
-        self.root.geometry("300x600")
+        self.root.geometry("500x1000")
 
         self.create_widgets()
 
