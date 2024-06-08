@@ -19,29 +19,31 @@ class BudgetApp:
         self.language_menu = ttk.Combobox(self.master, textvariable=self.language_var, values=["English", "Spanish"])
         self.language_menu.pack()
 
-        self.label = ttk.Label(self.master, text="Budget Counter")
+        self.label = ttk.Label(self.master, text="Budget Counter", foreground='#6dbd81')
         self.label.pack()
 
         self.language_button = ttk.Button(self.master, text="Change Language", command=self.change_language)
         self.language_button.pack()
 
-        self.expense_label = ttk.Label(self.master, text="Expense Amount:")
+        self.expense_label = ttk.Label(self.master, text="Expense Amount:", foreground='#6dbd81')
         self.expense_label.pack()
         self.expense_entry = ttk.Entry(self.master)
         self.expense_entry.pack()
 
-        self.category_label = ttk.Label(self.master, text="Category:")
+        self.category_label = ttk.Label(self.master, text="Category:", foreground='#6dbd81')
         self.category_label.pack()
         self.category_entry = ttk.Entry(self.master)
         self.category_entry.pack()
 
-        self.date_label = ttk.Label(self.master, text="Date (YYYY-MM-DD):")
+        self.date_label = ttk.Label(self.master, text="Date (YYYY-MM-DD):", foreground='#6dbd81')
         self.date_label.pack()
         self.date_entry = ttk.Entry(self.master)
         self.date_entry.pack()
 
         self.record_button = ttk.Button(self.master, text="Record Transaction", command=self.record_transaction)
-        self.record_button.pack()
+        self.record_button.pack(pady=10)
+        self.style.configure('TButton.RecordButton', foreground='#6dbd81')
+
 
     def change_language(self):
         selected_language = self.language_var.get()
