@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
+import json
 
 class Expense:
     def __init__(self, date, amount, category, description):
@@ -11,6 +12,14 @@ class Expense:
 
     def __repr__(self):
         return f"Expense(date={self.date}, amount={self.amount}, category={self.category}, description='{self.description}')"
+    
+    def to_dict(self):
+        return {
+            'date': self.date.strftime("%Y-%m-%d"),
+            'amount': self.amount,
+            'category': self.category,
+            'description': self.description
+        }
 
 class ExpenseTracker:
     def __init__(self):
@@ -37,17 +46,16 @@ class ExpenseTracker:
 
     def save_to_file(self, filename):
         with open(filename, 'w') as file:
-            for expense in self.expenses:
-                file.write(f"{expense.date},{expense.amount},{expense.category},{expense.description}\n")
-
+             json.dump([expense.to_dict() for expense in self.expenses], file)
+    
     def load_from_file(self, filename):
         self.expenses = []
         try:
             with open(filename, 'r') as file:
-                for line in file:
-                    date_str, amount, category, description = line.strip().split(',')
-                    date = datetime.strptime(date_str, "%Y-%m-%d").date()
-                    self.add_expense(date, float(amount), category, description)
+                data = json.load(file)
+                for item in data:
+                    date = datetime.strptime(item['date'], "%Y-%m-%d").date()
+                    self.add_expense(date, float(item['amount']), item['category'], item['description'])
         except FileNotFoundError:
             pass
         except Exception as e:
