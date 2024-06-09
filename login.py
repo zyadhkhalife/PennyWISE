@@ -43,7 +43,7 @@ class EWalletApp:
         self.backup_data_image = self.resize_image("backup_data.png", (50, 50))
         self.logout_image = self.resize_image("logout.png", (50, 50))
         self.back_image = self.resize_image("back.png", (50, 50))
-        self.side_image = self.resize_image("side_image.png", (400, 500))  # Image for the right side of the window
+        self.background_image = self.resize_image("side_image.png", (800, 600))  # Background image for the entire window
 
     def resize_image(self, image_path, size):
         image = Image.open(image_path)
@@ -56,38 +56,42 @@ class EWalletApp:
     
     def create_login_screen(self):
         self.clear_screen()
+
+        # Set background image
+        background_label = tk.Label(self.root, image=self.background_image)
+        background_label.place(relwidth=1, relheight=1)
         
-        # Create frames for the left and right sides
-        left_frame = tk.Frame(self.root, bg="#2b2b2b")
-        left_frame.place(relx=0.25, rely=0.55, anchor="center", relwidth=0.5, relheight=1)
+        # Create a frame for the login part
+        login_frame = tk.Frame(self.root, bg="#ffffff")
+        login_frame.place(relx=0.75, rely=0.6, anchor="center", relwidth=0.4, relheight=0.7)
+
+        # Create canvas for the rectangular island
+        canvas = tk.Canvas(login_frame, bg="#3c3c3c", highlightthickness=0)
+        canvas.place(relx=0.5, rely=0.5, anchor="center", width=350, height=400)
         
-        right_frame = tk.Frame(self.root, bg="#2b2b2b")
-        right_frame.place(relx=0.75, rely=0.5, anchor="center", relwidth=0.5, relheight=1)
+        # Login form content
+        self.login_label = tk.Label(canvas, text="Login", font=self.font_style, bg="#3c3c3c", fg="#ffffff")
+        self.login_label.place(relx=0.5, y=70, anchor="center")
         
-        # Left frame content (login form)
-        self.login_label = tk.Label(left_frame, text="Login", font=self.font_style, bg="#2b2b2b", fg="#ffffff")
-        self.login_label.pack(pady=20)
+        self.username_label = tk.Label(canvas, text="Username", font=self.font_style, bg="#3c3c3c", fg="#ffffff")
+        self.username_label.place(relx=0.5, y=130, anchor="center")
+        self.username_entry = tk.Entry(canvas, font=self.font_style, bg="#f0f0f0", fg="#000000", insertbackground="#000000")
+        self.username_entry.place(relx=0.5, y=160, anchor="center", width=200)
         
-        self.username_label = tk.Label(left_frame, text="Username", font=self.font_style, bg="#2b2b2b", fg="#ffffff")
-        self.username_label.pack(pady=5)
-        self.username_entry = tk.Entry(left_frame, font=self.font_style, bg="#3c3c3c", fg="#ffffff", insertbackground="#ffffff")
-        self.username_entry.pack(pady=5)
+        self.password_label = tk.Label(canvas, text="Password", font=self.font_style, bg="#3c3c3c", fg="#ffffff")
+        self.password_label.place(relx=0.5, y=190, anchor="center")
+        self.password_entry = tk.Entry(canvas, show="*", font=self.font_style, bg="#f0f0f0", fg="#000000", insertbackground="#000000")
+        self.password_entry.place(relx=0.5, y=220, anchor="center", width=200)
         
-        self.password_label = tk.Label(left_frame, text="Password", font=self.font_style, bg="#2b2b2b", fg="#ffffff")
-        self.password_label.pack(pady=5)
-        self.password_entry = tk.Entry(left_frame, show="*", font=self.font_style, bg="#3c3c3c", fg="#ffffff", insertbackground="#ffffff")
-        self.password_entry.pack(pady=5)
+        self.login_button = tk.Button(canvas, image=self.login_image, command=self.login, borderwidth=0, bg="#3c3c3c", activebackground="#3c3c3c")
+        self.login_button.place(relx=0.5, y=280, anchor="center")
         
-        self.login_button = tk.Button(left_frame, image=self.login_image, command=self.login, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
-        self.login_button.pack(pady=20)
-        
-        self.create_account_button = tk.Button(left_frame, image=self.create_account_image, command=self.create_account_screen, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
-        self.create_account_button.pack(pady=10)
-        
-        # Right frame content (image)
-        self.side_image_label = tk.Label(right_frame, image=self.side_image, bg="#2b2b2b")
-        self.side_image_label.place(relx=0.5, rely=0.5, anchor="center")
-    
+        self.create_account_button = tk.Button(canvas, image=self.create_account_image, command=self.create_account_screen, borderwidth=0, bg="#3c3c3c", activebackground="#3c3c3c")
+        self.create_account_button.place(relx=0.5, y=320, anchor="center")
+
+        # Place the background image label on top
+        background_label.lower(login_frame)
+
     def create_account_screen(self):
         self.clear_screen()
         
@@ -235,6 +239,10 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
     root.mainloop()
+
+
+
+
 
 
 
