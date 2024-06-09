@@ -87,17 +87,14 @@ class EWalletApp:
         self.change_password_button = tk.Button(self.root, text="Change Password", font=self.font_style, command=self.change_password_screen)
         self.change_password_button.place(relx=0.5, y=150, anchor="center")
         
-        self.track_expenses_button = tk.Button(self.root, text="Track Expenses", font=self.font_style, command=self.track_expenses_screen)
-        self.track_expenses_button.place(relx=0.5, y=200, anchor="center")
-        
         self.set_budget_button = tk.Button(self.root, text="Set Budget", font=self.font_style, command=self.set_budget_screen)
-        self.set_budget_button.place(relx=0.5, y=250, anchor="center")
+        self.set_budget_button.place(relx=0.5, y=200, anchor="center")
         
         self.backup_data_button = tk.Button(self.root, text="Backup Data", font=self.font_style, command=self.backup_data)
-        self.backup_data_button.place(relx=0.5, y=300, anchor="center")
+        self.backup_data_button.place(relx=0.5, y=250, anchor="center")
         
         self.logout_button = tk.Button(self.root, text="Logout", font=self.font_style, command=self.logout)
-        self.logout_button.place(relx=0.5, y=350, anchor="center")
+        self.logout_button.place(relx=0.5, y=300, anchor="center")
     
     def create_account(self):
         username = self.new_username_entry.get()
@@ -163,45 +160,6 @@ class EWalletApp:
         else:
             messagebox.showerror("Error", "Old password is incorrect")
     
-    def track_expenses_screen(self):
-        self.clear_screen()
-        
-        self.expenses_label = tk.Label(self.root, text="Track Expenses", font=self.font_style)
-        self.expenses_label.place(relx=0.5, y=100, anchor="center")
-        
-        self.amount_label = tk.Label(self.root, text="Amount", font=self.font_style)
-        self.amount_label.place(relx=0.5, y=150, anchor="center")
-        self.amount_entry = tk.Entry(self.root, font=self.font_style)
-        self.amount_entry.place(relx=0.5, y=180, anchor="center")
-        
-        self.add_expense_button = tk.Button(self.root, text="Add Expense", font=self.font_style, command=self.add_expense)
-        self.add_expense_button.place(relx=0.5, y=210, anchor="center")
-        
-        self.expenses_list_label = tk.Label(self.root, text="Expenses", font=self.font_style)
-        self.expenses_list_label.place(relx=0.5, y=240, anchor="center")
-        
-        self.expenses_listbox = tk.Listbox(self.root, font=self.font_style)
-        self.expenses_listbox.place(relx=0.5, y=270, anchor="center")
-        self.update_expenses_listbox()
-        
-        self.back_button = tk.Button(self.root, text="Back", font=self.font_style, command=self.main_screen)
-        self.back_button.place(relx=0.5, y=350, anchor="center")
-    
-    def add_expense(self):
-        amount = self.amount_entry.get()
-        
-        if amount.isdigit():
-            self.users[self.current_user]["expenses"].append(int(amount))
-            self.save_data()
-            self.update_expenses_listbox()
-        else:
-            messagebox.showerror("Error", "Invalid amount")
-    
-    def update_expenses_listbox(self):
-        self.expenses_listbox.delete(0, tk.END)
-        for expense in self.users[self.current_user]["expenses"]:
-            self.expenses_listbox.insert(tk.END, expense)
-    
     def set_budget_screen(self):
         self.clear_screen()
         
@@ -242,4 +200,5 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
     root.mainloop()
+
 
