@@ -11,7 +11,7 @@ def clicked():
     label4.config(text=data)  # Update text of existing label
 
 window = tk.Tk()
-window.geometry("500x800")
+window.geometry("600x1000")
 window.title("Pennywise Converter")
 window.configure(bg='white')  # Set background color to white
 

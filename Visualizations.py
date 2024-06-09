@@ -6,29 +6,28 @@ class ExpenseTrackerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Expense Tracker")
-        self.root.geometry("600x1000")  # Set the window size to 600x1000
         
         self.categories = []
         self.values = []
         
         # Labels and entries for category and value
         self.category_label = tk.Label(root, text="Enter expense category:")
-        self.category_label.pack(pady=10)
-        self.category_entry = tk.Entry(root, width=50)
-        self.category_entry.pack(pady=10)
+        self.category_label.pack()
+        self.category_entry = tk.Entry(root)
+        self.category_entry.pack()
         
         self.value_label = tk.Label(root, text="Enter value:")
-        self.value_label.pack(pady=10)
-        self.value_entry = tk.Entry(root, width=50)
-        self.value_entry.pack(pady=10)
+        self.value_label.pack()
+        self.value_entry = tk.Entry(root)
+        self.value_entry.pack()
         
         # Button to add expense
-        self.add_button = tk.Button(root, text="Add Expense", command=self.add_expense, width=20)
-        self.add_button.pack(pady=10)
+        self.add_button = tk.Button(root, text="Add Expense", command=self.add_expense)
+        self.add_button.pack()
         
         # Button to generate pie chart
-        self.plot_button = tk.Button(root, text="Plot Pie Chart", command=self.plot_pie_chart, width=20)
-        self.plot_button.pack(pady=10)
+        self.plot_button = tk.Button(root, text="Plot Pie Chart", command=self.plot_pie_chart)
+        self.plot_button.pack()
         
     def add_expense(self):
         category = self.category_entry.get()
@@ -74,11 +73,6 @@ class ExpenseTrackerApp:
 root = tk.Tk()
 app = ExpenseTrackerApp(root)
 root.mainloop()
-
-
-
-
-
 
 
 

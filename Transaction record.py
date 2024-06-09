@@ -7,7 +7,7 @@ class BudgetApp:
     def __init__(self, master):
         self.master = master
         self.master.title("Budget Counter")
-        self.master.geometry("500x800")
+        self.master.geometry("600x1000")
         self.master.configure(background="#f0f0f0")
 
         self.style = ttk.Style()
