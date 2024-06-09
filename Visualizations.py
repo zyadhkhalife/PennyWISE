@@ -5,16 +5,20 @@ import matplotlib.pyplot as plt
 class ExpenseTrackerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Expense Tracker")
+        self.root.title(" Pennywise Expense Tracker")
+        self.root.geometry("600X1000")
         
-        self.categories = []
-        self.values = []
+        self.expenses_categories = []
+        self.expenses_values = []
+        
+        self.title_label= tk.Label(master,text="Budget Tracker Application", font=("Verdana", 12))
+        self.title_label.pack(pady=20)
         
         # Labels and entries for category and value
         self.category_label = tk.Label(root, text="Enter expense category:")
-        self.category_label.pack()
-        self.category_entry = tk.Entry(root)
-        self.category_entry.pack()
+        self.category_label.pack(pady=15)
+        self.category_entry = tk.Entry(root , width=55)
+        self.category_entry.pack(pady=15)
         
         self.value_label = tk.Label(root, text="Enter value:")
         self.value_label.pack()
