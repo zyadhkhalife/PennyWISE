@@ -81,4 +81,10 @@ class ExpenseTrackerApp:
         plt.legend(wedges, self.expense_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
         plt.show()
 
+        def reset_data(self):
+         self.expense_categories = []
+        self.expense_values = []
+        self.expense_listbox.delete(0, tk.END)
+        messagebox.showinfo("Reset", "All data has been reset.")
+
 
