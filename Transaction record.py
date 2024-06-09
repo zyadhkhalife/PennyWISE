@@ -11,8 +11,8 @@ class BudgetApp:
         self.master.configure(background="#f0f0f0")
 
         self.style = ttk.Style()
-        self.style.configure('TButton', font=('Arial', 12), padding=5 , background='#6dbd81', foreground='green')
-        self.style.configure('TLabel', font=('Arial', 16), padding=10)
+        self.style.configure('TButton', font=('Verdana', 12), padding=5 , background='#6dbd81', foreground='green')
+        self.style.configure('TLabel', font=('Verdana', 12), padding=10)
 
         self.language_var = tk.StringVar()
         self.language_var.set("English")

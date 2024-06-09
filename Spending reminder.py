@@ -9,7 +9,7 @@ class ReminderApp:
         self.master.geometry("500x800")
         self.master.configure(background="#f0f0f0")
 
-        self.label = tk.Label(self.master, text="Spending Reminder", font=("Arial", 16), pady=10)
+        self.label = tk.Label(self.master, text="Spending Reminder", font=("Verdana", 12), pady=10)
         self.label.pack()
 
         self.hour_var = tk.StringVar(value="08")
