@@ -13,14 +13,14 @@ class EWalletApp:
         
         self.users = self.load_data()
         self.current_user = None
-        self.font_style = ("Verdana", 12)
+        self.font_style = ("Helvetica", 10, "bold")
         
         self.create_login_screen()
     
     def create_tab(self):
         self.tab_canvas = tk.Canvas(self.root, height=50, bg="#649c5a")
         self.tab_canvas.pack(fill="x")
-        self.tab_label = tk.Label(self.tab_canvas, text="E-Wallet App", font=("Verdana", 14, "bold"), bg="#649c5a", fg="white")
+        self.tab_label = tk.Label(self.tab_canvas, text="E-Wallet App", font=("Helvetica", 14, "bold"), bg="#649c5a", fg="white")
         self.tab_label.place(relx=0.5, rely=0.5, anchor="center")
 
     def load_data(self):
@@ -200,5 +200,6 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
     root.mainloop()
+
 
 
