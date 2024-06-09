@@ -45,7 +45,26 @@ class ExpenseTrackerApp:
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.expense_listbox.config(yscrollcommand=self.scrollbar.set)
 
+        def add_expense(self):
+         category = self.category_entry.get()
+        value = self.value_entry.get()
         
+        if not category or not value:
+            messagebox.showwarning("Input Error", "Please enter both category and value.")
+            return
+
+        try:
+            value = float(value)
+        except ValueError:
+            messagebox.showwarning("Input Error", "Please enter a valid number for the value.")
+            return
+
+        self.expense_categories.append(category)
+        self.expense_values.append(value)
+        self.expense_listbox.insert(tk.END, f"{category}: ${value:.2f}")
+
+        self.category_entry.delete(0, tk.END)
+        self.value_entry.delete(0, tk.END)
         
         
    
