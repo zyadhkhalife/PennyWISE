@@ -12,9 +12,9 @@ root.geometry("800x600")  # Set the window size to 800x600
 # Create a style
 style = ttk.Style()
 style.theme_use('clam')  # Using 'clam' theme as it is more customizable
-style.configure("TNotebook", background="#333333", foreground="white")
-style.configure("TNotebook.Tab", background="#444444", foreground="white", padding=[10, 5], font=('Helvetica', 12, 'bold'))  # Padding and font size for tabs
-style.map("TNotebook.Tab", background=[("selected", "#333333")], foreground=[("selected", "white")])
+style.configure("TNotebook", background="#222222", foreground="white")
+style.configure("TNotebook.Tab", background="#333333", foreground="white", padding=[10, 5], font=('Helvetica', 12, 'bold'))  # Padding and font size for tabs
+style.map("TNotebook.Tab", background=[("selected", "#222222")], foreground=[("selected", "white")])
 
 # Create a Notebook widget
 notebook = ttk.Notebook(root, style="TNotebook")
@@ -35,10 +35,10 @@ notebook.add(frame2, text="Review Expenses")
 notebook.pack(expand=True, fill='both')
 
 # Configure frame styles for dark mode
-style.configure("TFrame", background="#333333", foreground="white")
+style.configure("TFrame", background="#222222", foreground="white")
 
 # Set the background color for the root window
-root.configure(bg="#333333")
+root.configure(bg="#222222")
 
 def on_closing():
     expense_tracker_app.on_closing()
@@ -48,6 +48,8 @@ root.protocol("WM_DELETE_WINDOW", on_closing)
 
 # Run the application
 root.mainloop()
+
+
 
 
 
