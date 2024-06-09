@@ -11,7 +11,7 @@ class EWalletApp:
         
         self.users = self.load_data()
         self.current_user = None
-        self.font_style = ("Verdana", 12)  # Set the font style to Verdana
+        self.font_style = ("Verdana", 12)
         
         self.create_login_screen()
     
