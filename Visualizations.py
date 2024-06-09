@@ -65,6 +65,16 @@ class ExpenseTrackerApp:
 
         self.category_entry.delete(0, tk.END)
         self.value_entry.delete(0, tk.END)
+
+        def plot_chart(self):
+         if not self.expense_categories or not self.expense_values:
+            messagebox.showwarning("Data Error", "No expenses to plot.")
+            return
+
+        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99','#c2c2f0','#ffb3e6', '#c4e17f', '#76d7c4', '#f7b7a3', '#ffccff']
+        
+        plt.figure(figsize=(10, 7))
+        wedges, texts, autotexts = plt.pie(self.expense_values, labels=self.expense_categories, colors=colors[:len(self.expense_categories)], autopct='%1.1f%%', startangle=140)
         
         
    
