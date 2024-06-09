@@ -1,3 +1,4 @@
+import requests
 import tkinter as tk
 from tkinter import ttk
 from google.cloud import translate_v2 as translate
@@ -25,8 +26,8 @@ root.geometry("500x800")
 root.configure(background="white")  # Set background color
 
 style = ttk.Style()
-style.configure('TButton', font=('Arial', 12), padding=5)
-style.configure('TLabel', font=('Arial', 16), padding=10)
+style.configure('TButton', font=('Arial', 12), padding=5 )
+style.configure('TLabel', font=('Arial', 16), padding=10 )
 
 language_var = tk.StringVar()
 language_var.set("English")

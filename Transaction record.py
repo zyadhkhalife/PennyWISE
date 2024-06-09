@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import json
 import datetime
-import sqlite3
 
 class BudgetApp:
     def __init__(self, master):
@@ -48,23 +48,19 @@ class BudgetApp:
         self.record_listbox = tk.Listbox(self.master, width=50)
         self.record_listbox.pack(pady=10)
 
-        self.conn = sqlite3.connect('budget.db')
-        self.create_table()
-        self.new_method()
+        self.filename = 'budget.json'
+        self.load_data()
 
-    def new_method(self):
-        self.display_records()
-        
-    def create_table(self):
-         with self.conn:
-             self.conn.execute('''
-                CREATE TABLE IF NOT EXISTS transactions (
-                    id INTEGER PRIMARY KEY,
-                    amount REAL,
-                    category TEXT,
-                    date DATE
-                )
-            ''')
+    def load_data(self):
+        try:
+            with open(self.filename, 'r') as file:
+                self.data = json.load(file)
+        except FileNotFoundError:
+            self.data = []
+
+    def save_data(self):
+        with open(self.filename, 'w') as file:
+            json.dump(self.data, file, indent=4)
 
     def change_language(self):
         selected_language = self.language_var.get()
@@ -89,10 +85,9 @@ class BudgetApp:
             category = self.category_entry.get()
             date_str = self.date_entry.get()
             date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
-            with self.conn:
-                self.conn.execute('''
-                    INSERT INTO transactions (amount, category, date) VALUES (?, ?, ?)
-                ''', (amount, category, date))
+            transaction = {'amount': amount, 'category': category, 'date': date.strftime("%Y-%m-%d")}
+            self.data.append(transaction)
+            self.save_data()
             messagebox.showinfo("Transaction Recorded", "Transaction has been recorded successfully.")
             self.display_records()
         except ValueError:
@@ -101,13 +96,9 @@ class BudgetApp:
     def display_records(self):
         # Clear the listbox first
         self.record_listbox.delete(0, tk.END)
-        # Fetch records from the database and display them in the listbox
-        with self.conn:
-            cursor = self.conn.cursor()
-            cursor.execute("SELECT * FROM transactions")
-            records = cursor.fetchall()
-            for record in records:
-                self.record_listbox.insert(tk.END, f"ID: {record[0]}, Amount: {record[1]}, Category: {record[2]}, Date: {record[3]}")
+        # Fetch records from the data list and display them in the listbox
+        for idx, transaction in enumerate(self.data, start=1):
+            self.record_listbox.insert(tk.END, f"ID: {idx}, Amount: {transaction['amount']}, Category: {transaction['category']}, Date: {transaction['date']}")
 
 def main():
     root = tk.Tk()
