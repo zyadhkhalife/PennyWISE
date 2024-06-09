@@ -1,78 +1,50 @@
+import requests
 import tkinter as tk
-from tkinter import messagebox
-import matplotlib.pyplot as plt
+from tkinter import ttk
+from google.cloud import translate_v2 as translate
 
-class ExpenseTrackerApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Pennywise Expenses Tracker ")
-        self.root.geometry("600X1000")
+def translate_text(text, target_language):
+    translate_client = translate.Client()
+    result = translate_client.translate(text, target_language=target_language)
+    return result['translatedText']
 
-        self.categories = []
-        self.values = []
+def change_language(event=None):
+    selected_language = language_var.get()
+    update_ui_with_translation(selected_language)
 
-        # Labels and entries for category and value
-        self.category_label = tk.Label(root, text="Enter expense category:")
-        self.category_label.pack(pady=15)
-        self.category_entry = tk.Entry(root, width=55)
-        self.category_entry.pack(pady=10)
+def update_ui_with_translation(target_language):
+    translated_texts = {
+        " Pennywise Budget Counter": translate_text("Pennywise Budget Counter", target_language),
+        "Change Language": translate_text("Change Language", target_language)
+    }
+    label.config(text=translated_texts[" Pennywise Budget Counter"])
+    language_button.config(text=translated_texts["Change Language"])
 
-        self.value_label = tk.Label(root, text="Enter value:")
-        self.value_label.pack()
-        self.value_entry = tk.Entry(root)
-        self.value_entry.pack()
-
-        # Button to add expense
-        self.add_button = tk.Button(root, text="Add Expense", command=self.add_expense)
-        self.add_button.pack()
-
-        # Button to generate pie chart
-        self.plot_button = tk.Button(root, text="Plot Pie Chart", command=self.plot_pie_chart)
-        self.plot_button.pack()
-
-    def add_expense(self):
-        category = self.category_entry.get()
-        value = self.value_entry.get()
-
-        if not category or not value:
-            messagebox.showwarning("Input Error", "Please enter both category and value.")
-            return
-
-        try:
-            value = float(value)
-        except ValueError:
-            messagebox.showwarning("Input Error", "Please enter a valid number for the value.")
-            return
-
-        self.categories.append(category)
-        self.values.append(value)
-
-        self.category_entry.delete(0, tk.END)
-        self.value_entry.delete(0, tk.END)
-
-        messagebox.showinfo("Success", f"Added {category}: ${value:.2f}")
-
-    def plot_pie_chart(self):
-        if not self.categories or not self.values:
-            messagebox.showwarning("Data Error", "No expenses to plot.")
-            return
-
-        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99','#c2c2f0','#ffb3e6']
-
-        plt.figure(figsize=(10, 7))
-        wedges, texts, autotexts = plt.pie(self.values, labels=self.categories, colors=colors[:len(self.categories)], autopct='%1.1f%%', startangle=140)
-
-        plt.title('Monthly Expenses')
-
-        for i, a in enumerate(autotexts):
-            a.set_text(f'{self.values[i]:.2f}\n({a.get_text()})')
-
-        plt.legend(wedges, self.categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
-        plt.show()
-
-# Create the main window
 root = tk.Tk()
-app = ExpenseTrackerApp(root)
+root.title("Budget Counter")
+root.geometry("600x1000")
+root.configure(background="white")  # Set background color
+
+style = ttk.Style()
+style.configure('TButton', font=('Verdana', 12), padding=5 )
+style.configure('TLabel', font=('Verdana', 12), padding=10 )
+
+language_var = tk.StringVar()
+language_var.set("English")
+
+language_menu = ttk.Combobox(root, textvariable=language_var, values=["English", "Spanish"])
+language_menu.pack()
+
+label = ttk.Label(root, text=" Pennywise Budget Counter")
+label.pack()
+
+language_button = ttk.Button(root, text="Change Language", command=change_language)
+language_button.pack()
+
+
+# Bind the change_language function to the Combobox selection event
+language_menu.bind("<<ComboboxSelected>>", change_language)
+
 root.mainloop()
 
 
