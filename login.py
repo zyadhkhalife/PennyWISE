@@ -7,7 +7,6 @@ class EWalletApp:
     def __init__(self, root):
         self.root = root
         self.root.title("E-Wallet App")
-        self.root.geometry("600x1000")
         
         self.users = self.load_data()
         self.current_user = None
