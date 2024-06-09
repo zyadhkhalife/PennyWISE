@@ -70,7 +70,8 @@ class ExpenseTrackerApp:
         self.root.title("Expense Tracker")
 
         self.root.geometry("800x600")
-        
+
+        # Dark mode colors
         self.bg_color = "#2e2e2e"
         self.fg_color = "#ffffff"
         self.entry_bg_color = "#4d4d4d"
@@ -81,18 +82,15 @@ class ExpenseTrackerApp:
 
     def create_widgets(self):
         self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(2, weight=1)
 
         self.form_frame = tk.Frame(self.root, bg=self.bg_color)
-        self.form_frame.grid(row=0, column=0, padx=5, pady=5, sticky='ew')
+        self.form_frame.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky='ew')
         self.form_frame.grid_columnconfigure(0, weight=1)
         self.form_frame.grid_columnconfigure(1, weight=1)
 
-        self.button_frame = tk.Frame(self.root, bg=self.bg_color)
-        self.button_frame.grid(row=1, column=0, padx=5, pady=5, sticky='ew')
-        self.button_frame.grid_columnconfigure(0, weight=1)
-
-        self.date_label = tk.Label(self.form_frame, text="Date (YYYY-MM-DD):", font=("Verdana", 12), bg=self.bg_color, fg=self.fg_color)
+        self.date_label = tk.Label(self.form_frame, text="Date (YYYY-MM-DD):", font=("Helvetica", 8), bg=self.bg_color, fg=self.fg_color)
         self.date_label.grid(row=0, column=0, padx=5, pady=5, sticky='e')
         self.date_entry = tk.Entry(self.form_frame, bg=self.entry_bg_color, fg=self.fg_color)
         self.date_entry.grid(row=0, column=1, padx=5, pady=5, sticky='w')
@@ -112,6 +110,20 @@ class ExpenseTrackerApp:
         self.description_entry = tk.Entry(self.form_frame, bg=self.entry_bg_color, fg=self.fg_color)
         self.description_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
+        self.table_frame = tk.Frame(self.root, bg=self.bg_color)
+        self.table_frame.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.tree = ttk.Treeview(self.table_frame, columns=("date", "amount", "category", "description"), show='headings', style="Treeview")
+        self.tree.heading("date", text="Date")
+        self.tree.heading("amount", text="Amount")
+        self.tree.heading("category", text="Category")
+        self.tree.heading("description", text="Description")
+        self.tree.pack(fill=tk.BOTH, expand=True)
+
+        self.button_frame = tk.Frame(self.root, bg=self.bg_color)
+        self.button_frame.grid(row=2, column=1, padx=5, pady=5, sticky='nsew')
+        self.button_frame.grid_columnconfigure(0, weight=1)
+
         self.add_button = tk.Button(self.button_frame, text="Add Expense", command=self.add_expense, font=("Verdana", 12), bg=self.button_bg_color, fg=self.fg_color)
         self.add_button.grid(row=0, column=0, pady=5, sticky='n')
 
@@ -127,6 +139,9 @@ class ExpenseTrackerApp:
         self.delete_button = tk.Button(self.button_frame, text="Delete Selected Expense", command=self.delete_expense, font=("Verdana", 12), bg=self.button_bg_color, fg=self.fg_color)
         self.delete_button.grid(row=4, column=0, pady=5, sticky='n')
 
+        self.history_button = tk.Button(self.button_frame, text="Spending History", command=self.show_history, font=("Verdana", 12), bg=self.button_bg_color, fg=self.fg_color)
+        self.history_button.grid(row=5, column=0, pady=5, sticky='n')
+
         style = ttk.Style()
         style.theme_use('clam')
         style.configure("Treeview",
@@ -136,15 +151,9 @@ class ExpenseTrackerApp:
                         font=("Verdana", 10))
         style.configure("Treeview.Heading", font=("Verdana", 12), background=self.button_bg_color, foreground=self.fg_color)
 
-        self.tree = ttk.Treeview(self.root, columns=("date", "amount", "category", "description"), show='headings', style="Treeview")
-        self.tree.heading("date", text="Date")
-        self.tree.heading("amount", text="Amount")
-        self.tree.heading("category", text="Category")
-        self.tree.heading("description", text="Description")
-        self.tree.grid(row=2, column=0, padx=5, pady=5, sticky='nsew')
-
         self.root.grid_rowconfigure(2, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
 
     def add_expense(self):
         try:
@@ -228,3 +237,6 @@ if __name__ == "__main__":
     app = ExpenseTrackerApp(root)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
+
+
+
