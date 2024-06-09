@@ -7,6 +7,9 @@ class EWalletApp:
     def __init__(self, root):
         self.root = root
         self.root.title("E-Wallet App")
+
+        # Create a canvas for the tab
+        self.create_tab()
         
         self.users = self.load_data()
         self.current_user = None
@@ -14,6 +17,12 @@ class EWalletApp:
         
         self.create_login_screen()
     
+    def create_tab(self):
+        self.tab_canvas = tk.Canvas(self.root, height=50, bg="#649c5a")
+        self.tab_canvas.pack(fill="x")
+        self.tab_label = tk.Label(self.tab_canvas, text="E-Wallet App", font=("Verdana", 14, "bold"), bg="#649c5a", fg="white")
+        self.tab_label.place(relx=0.5, rely=0.5, anchor="center")
+
     def load_data(self):
         if os.path.exists("data.json"):
             with open("data.json", "r") as f:
@@ -226,9 +235,11 @@ class EWalletApp:
     
     def clear_screen(self):
         for widget in self.root.winfo_children():
-            widget.destroy()
+            if widget not in [self.tab_canvas, self.tab_label]:
+                widget.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
     root.mainloop()
+
