@@ -26,8 +26,8 @@ root.geometry("500x800")
 root.configure(background="white")  # Set background color
 
 style = ttk.Style()
-style.configure('TButton', font=('Arial', 12), padding=5 )
-style.configure('TLabel', font=('Arial', 16), padding=10 )
+style.configure('TButton', font=('Verdana', 12), padding=5 )
+style.configure('TLabel', font=('Verdana', 12), padding=10 )
 
 language_var = tk.StringVar()
 language_var.set("English")
