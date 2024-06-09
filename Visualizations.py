@@ -87,4 +87,8 @@ class ExpenseTrackerApp:
         self.expense_listbox.delete(0, tk.END)
         messagebox.showinfo("Reset", "All data has been reset.")
 
+        root = tk.Tk()
+app = BudgetTrackerApp(root)
+root.mainloop()
+
 
