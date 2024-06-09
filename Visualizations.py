@@ -73,15 +73,12 @@ class ExpenseTrackerApp:
 
         colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99','#c2c2f0','#ffb3e6', '#c4e17f', '#76d7c4', '#f7b7a3', '#ffccff']
         
-        plt.figure(figsize=(10, 7))
-        wedges, texts, autotexts = plt.pie(self.expense_values, labels=self.expense_categories, colors=colors[:len(self.expense_categories)], autopct='%1.1f%%', startangle=140)
+        plt.title('Expense Distribution')
         
+        for i, a in enumerate(autotexts):
+            a.set_text(f'{self.expense_values[i]:.2f}\n({a.get_text()})')
         
-   
-# Create the main window
-root = tk.Tk()
-app = ExpenseTrackerApp(root)
-root.mainloop()
-
+        plt.legend(wedges, self.expense_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+        plt.show()
 
 
