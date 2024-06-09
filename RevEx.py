@@ -86,39 +86,39 @@ class ExpenseTrackerApp:
         self.button_frame.grid(row=1, column=0, padx=5, pady=5, sticky='ew')
         self.button_frame.grid_columnconfigure(0, weight=1)
 
-        self.date_label = tk.Label(self.form_frame, text="Date (YYYY-MM-DD):")
+        self.date_label = tk.Label(self.form_frame, text="Date (YYYY-MM-DD):", font=("Verdana", 12))
         self.date_label.grid(row=0, column=0, padx=5, pady=5, sticky='e')
         self.date_entry = tk.Entry(self.form_frame)
         self.date_entry.grid(row=0, column=1, padx=5, pady=5, sticky='w')
 
-        self.amount_label = tk.Label(self.form_frame, text="Amount:")
+        self.amount_label = tk.Label(self.form_frame, text="Amount:", font=("Verdana", 12))
         self.amount_label.grid(row=1, column=0, padx=5, pady=5, sticky='e')
         self.amount_entry = tk.Entry(self.form_frame)
         self.amount_entry.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
-        self.category_label = tk.Label(self.form_frame, text="Category:")
+        self.category_label = tk.Label(self.form_frame, text="Category:", font=("Verdana", 12))
         self.category_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
         self.category_entry = tk.Entry(self.form_frame)
         self.category_entry.grid(row=2, column=1, padx=5, pady=5, sticky='w')
 
-        self.description_label = tk.Label(self.form_frame, text="Description:")
+        self.description_label = tk.Label(self.form_frame, text="Description:", font=("Verdana", 12))
         self.description_label.grid(row=3, column=0, padx=5, pady=5, sticky='e')
         self.description_entry = tk.Entry(self.form_frame)
         self.description_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
-        self.add_button = tk.Button(self.button_frame, text="Add Expense", command=self.add_expense)
+        self.add_button = tk.Button(self.button_frame, text="Add Expense", command=self.add_expense, font=("Verdana", 12))
         self.add_button.grid(row=0, column=0, pady=5, sticky='n')
 
-        self.view_all_button = tk.Button(self.button_frame, text="View All Expenses", command=self.view_expenses)
+        self.view_all_button = tk.Button(self.button_frame, text="View All Expenses", command=self.view_expenses, font=("Verdana", 12))
         self.view_all_button.grid(row=1, column=0, pady=5, sticky='n')
 
-        self.view_by_category_button = tk.Button(self.button_frame, text="View by Category", command=self.view_expenses_by_category)
+        self.view_by_category_button = tk.Button(self.button_frame, text="View by Category", command=self.view_expenses_by_category, font=("Verdana", 12))
         self.view_by_category_button.grid(row=2, column=0, pady=5, sticky='n')
 
-        self.view_total_button = tk.Button(self.button_frame, text="View Total Expenses", command=self.view_total_expenses)
+        self.view_total_button = tk.Button(self.button_frame, text="View Total Expenses", command=self.view_total_expenses, font=("Verdana", 12))
         self.view_total_button.grid(row=3, column=0, pady=5, sticky='n')
 
-        self.delete_button = tk.Button(self.button_frame, text="Delete Selected Expense", command=self.delete_expense)
+        self.delete_button = tk.Button(self.button_frame, text="Delete Selected Expense", command=self.delete_expense, font=("Verdana", 12))
         self.delete_button.grid(row=4, column=0, pady=5, sticky='n')
 
         self.tree = ttk.Treeview(self.root, columns=("date", "amount", "category", "description"), show='headings')
