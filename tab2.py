@@ -77,58 +77,58 @@ class ExpenseTrackerApp:
         self.parent.grid_columnconfigure(0, weight=1)
         self.parent.grid_rowconfigure(3, weight=1)
 
-        self.form_frame = tk.Frame(self.parent)
+        self.form_frame = tk.Frame(self.parent, bg="#333333")
         self.form_frame.grid(row=0, column=0, padx=5, pady=5, sticky='ew')
         self.form_frame.grid_columnconfigure(0, weight=1)
         self.form_frame.grid_columnconfigure(1, weight=1)
 
-        self.button_frame = tk.Frame(self.parent)
+        self.button_frame = tk.Frame(self.parent, bg="#333333")
         self.button_frame.grid(row=1, column=0, padx=5, pady=5, sticky='ew')
         self.button_frame.grid_columnconfigure(0, weight=1)
 
-        self.total_frame = tk.Frame(self.parent)
+        self.total_frame = tk.Frame(self.parent, bg="#333333")
         self.total_frame.grid(row=2, column=0, padx=5, pady=5, sticky='ew')
         self.total_frame.grid_columnconfigure(0, weight=1)
 
-        self.date_label = tk.Label(self.form_frame, text="Date (YYYY-MM-DD):", font=("Verdana", 10))
+        self.date_label = tk.Label(self.form_frame, text="Date (YYYY-MM-DD):", font=("Verdana", 10), bg="#333333", fg="white")
         self.date_label.grid(row=0, column=0, padx=5, pady=5, sticky='e')
-        self.date_entry = tk.Entry(self.form_frame)
+        self.date_entry = tk.Entry(self.form_frame, bg="#555555", fg="white", insertbackground="white")
         self.date_entry.grid(row=0, column=1, padx=5, pady=5, sticky='w')
 
-        self.amount_label = tk.Label(self.form_frame, text="Amount:", font=("Verdana", 10))
+        self.amount_label = tk.Label(self.form_frame, text="Amount:", font=("Verdana", 10), bg="#333333", fg="white")
         self.amount_label.grid(row=1, column=0, padx=5, pady=5, sticky='e')
-        self.amount_entry = tk.Entry(self.form_frame)
+        self.amount_entry = tk.Entry(self.form_frame, bg="#555555", fg="white", insertbackground="white")
         self.amount_entry.grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
-        self.category_label = tk.Label(self.form_frame, text="Category:", font=("Verdana", 10))
+        self.category_label = tk.Label(self.form_frame, text="Category:", font=("Verdana", 10), bg="#333333", fg="white")
         self.category_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
-        self.category_entry = tk.Entry(self.form_frame)
+        self.category_entry = tk.Entry(self.form_frame, bg="#555555", fg="white", insertbackground="white")
         self.category_entry.grid(row=2, column=1, padx=5, pady=5, sticky='w')
 
-        self.description_label = tk.Label(self.form_frame, text="Description:", font=("Verdana", 10))
+        self.description_label = tk.Label(self.form_frame, text="Description:", font=("Verdana", 10), bg="#333333", fg="white")
         self.description_label.grid(row=3, column=0, padx=5, pady=5, sticky='e')
-        self.description_entry = tk.Entry(self.form_frame)
+        self.description_entry = tk.Entry(self.form_frame, bg="#555555", fg="white", insertbackground="white")
         self.description_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
-        self.add_button = tk.Button(self.button_frame, text="Add Expense", command=self.add_expense, font=("Verdana", 10))
+        self.add_button = tk.Button(self.button_frame, text="Add Expense", command=self.add_expense, font=("Verdana", 10), bg="#444444", fg="white")
         self.add_button.grid(row=0, column=0, pady=5, sticky='n')
 
-        self.view_all_button = tk.Button(self.button_frame, text="View All Expenses", command=self.view_expenses, font=("Verdana", 10))
+        self.view_all_button = tk.Button(self.button_frame, text="View All Expenses", command=self.view_expenses, font=("Verdana", 10), bg="#444444", fg="white")
         self.view_all_button.grid(row=1, column=0, pady=5, sticky='n')
 
-        self.view_by_category_button = tk.Button(self.button_frame, text="View by Category", command=self.view_expenses_by_category, font=("Verdana", 10))
+        self.view_by_category_button = tk.Button(self.button_frame, text="View by Category", command=self.view_expenses_by_category, font=("Verdana", 10), bg="#444444", fg="white")
         self.view_by_category_button.grid(row=2, column=0, pady=5, sticky='n')
 
-        self.view_total_button = tk.Button(self.button_frame, text="View Total Expenses", command=self.view_total_expenses, font=("Verdana", 10))
+        self.view_total_button = tk.Button(self.button_frame, text="View Total Expenses", command=self.view_total_expenses, font=("Verdana", 10), bg="#444444", fg="white")
         self.view_total_button.grid(row=3, column=0, pady=5, sticky='n')
 
-        self.delete_button = tk.Button(self.button_frame, text="Delete Selected Expense", command=self.delete_expense, font=("Verdana", 10))
+        self.delete_button = tk.Button(self.button_frame, text="Delete Selected Expense", command=self.delete_expense, font=("Verdana", 10), bg="#444444", fg="white")
         self.delete_button.grid(row=4, column=0, pady=5, sticky='n')
 
-        self.total_expenses_label = tk.Label(self.total_frame, text="Total Expenses: $0", font=("Verdana", 10))
+        self.total_expenses_label = tk.Label(self.total_frame, text="Total Expenses: $0", font=("Verdana", 10), bg="#333333", fg="white")
         self.total_expenses_label.grid(row=0, column=0, pady=5, sticky='n')
 
-        self.tree = ttk.Treeview(self.parent, columns=("date", "amount", "category", "description"), show='headings')
+        self.tree = ttk.Treeview(self.parent, columns=("date", "amount", "category", "description"), show='headings', style="Treeview")
         self.tree.heading("date", text="Date")
         self.tree.heading("amount", text="Amount")
         self.tree.heading("category", text="Category")
@@ -138,6 +138,11 @@ class ExpenseTrackerApp:
         self.tree.column("category", width=80)
         self.tree.column("description", width=120)
         self.tree.grid(row=3, column=0, padx=5, pady=5, sticky='nsew')
+
+        self.style = ttk.Style()
+        self.style.configure("Treeview", background="#444444", foreground="white", fieldbackground="#444444", rowheight=25)
+        self.style.configure("Treeview.Heading", background="#333333", foreground="white")
+        self.style.map('Treeview', background=[('selected', '#666666')])
 
     def add_expense(self):
         try:
@@ -203,6 +208,8 @@ class ExpenseTrackerApp:
 def create_tab(frame, notebook):
     app = ExpenseTrackerApp(frame, notebook)
     return app
+
+
 
 
 
