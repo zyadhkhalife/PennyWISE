@@ -4,16 +4,16 @@ import tkinter as tk
 c = CurrencyConverter()
 
 def clicked():
-    amount = float(entry1.get())  # Changed to float to handle decimals
+    amount = float(entry1.get())  
     cur1 = entry2.get()
     cur2 = entry3.get()
     data = c.convert(amount, cur1, cur2)
-    label4.config(text=data)  # Update text of existing label
+    label4.config(text=data)  
 
 window = tk.Tk()
-window.geometry("600x1000")
+window.geometry("800x600")
 window.title("Pennywise Converter")
-window.configure(bg='white')  # Set background color to white
+window.configure(bg='#2b2b2b')  
 
 label = tk.Label(window, text="Currency Converter", font="Verdana 12 bold" , bg='#6dbd81')
 label.place(x=120, y=40)
@@ -39,7 +39,7 @@ entry1.place(x=270, y=105)
 entry2.place(x=270, y=155)
 entry3.place(x=270, y=205)
 
-# Create label for displaying result
+
 label4 = tk.Label(window, text="", font="Verdana 12 bold", bg ='#6dbd81')
 label4.place(x=200, y=300)
 
