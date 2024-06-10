@@ -12,7 +12,6 @@ class EWalletApp:
         self.root.geometry("800x600")  
         self.root.resizable(False, False)  
 
-        
         self.create_tab()
         
         self.users = self.load_data()
@@ -25,7 +24,7 @@ class EWalletApp:
     def create_tab(self):
         self.tab_canvas = tk.Canvas(self.root, height=50, bg="#1e1e1e", highlightthickness=0)
         self.tab_canvas.pack(fill="x")
-        self.tab_label = tk.Label(self.tab_canvas, text="E-Wallet App", font=("Helvetica", 14, "bold"), bg="#1e1e1e", fg="#ffffff")
+        self.tab_label = tk.Label(self.tab_canvas, text="PennyWISE", font=("Helvetica", 14, "bold"), bg="#1e1e1e", fg="#ffffff")
         self.tab_label.place(relx=0.5, rely=0.5, anchor="center")
 
     def load_data(self):
@@ -38,11 +37,11 @@ class EWalletApp:
     def load_images(self):
         self.login_image = self.resize_image("login.png", (80, 60))
         self.create_account_image = self.resize_image("create_account.png", (80, 60))
-        self.change_password_image = self.resize_image("change_password.png", (80, 60))
-        self.set_budget_image = self.resize_image("set_budget.png", (80, 60))
-        self.backup_data_image = self.resize_image("backup_data.png", (80, 60))
-        self.logout_image = self.resize_image("logout.png", (80, 60))
-        self.back_image = self.resize_image("back.png", (80, 60))
+        self.change_password_image = self.resize_image("change_password.png", (165, 60))
+        self.set_budget_image = self.resize_image("set_budget.png", (165, 60))
+        self.backup_data_image = self.resize_image("backup_data.png", (165, 60))
+        self.logout_image = self.resize_image("logout.png", (165, 60))
+        self.back_image = self.resize_image("back.png", (165, 60))
         self.background_image = self.resize_image("side_image.png", (800, 600))
 
     def resize_image(self, image_path, size):
@@ -57,18 +56,14 @@ class EWalletApp:
     def create_login_screen(self):
         self.clear_screen()
 
-        
-        background_label = tk.Label(self.root, image=self.background_image)
+        background_label = tk.Label(self.root, image=self.background_image, borderwidth=0)
         background_label.place(relwidth=1, relheight=1)
-        
         
         login_frame = tk.Frame(self.root, bg="#ffffff")
         login_frame.place(relx=0.75, rely=0.6, anchor="center", relwidth=0.4, relheight=0.7)
 
-        
         canvas = tk.Canvas(login_frame, bg="#3c3c3c", highlightthickness=0)
         canvas.place(relwidth=1, relheight=1)
-        
         
         self.login_label = tk.Label(canvas, text="LOGIN", font=("Helvetica", 20, "bold"), bg="#3c3c3c", fg="#ffffff")
         self.login_label.place(relx=0.2, rely=0.1, anchor="center", width=100, height=30)
@@ -83,17 +78,15 @@ class EWalletApp:
         self.password_entry = tk.Entry(canvas, show="*", font=self.font_style, bg="#8f8f8f", fg="#000000", insertbackground="#000000")
         self.password_entry.place(relx=0.5, rely=0.42, anchor="center", width=200)
         
-        
         button_frame = tk.Frame(canvas, bg="#3c3c3c")
         button_frame.place(relx=0.5, rely=0.6, anchor="center")
 
-        self.login_button = tk.Button(button_frame, image=self.login_image, command=self.login, borderwidth=0, bg="#3c3c3c", activebackground="#3c3c3c")
+        self.login_button = tk.Button(button_frame, image=self.login_image, command=self.login, borderwidth=0, bg="#3c3c3c", highlightthickness=0, activebackground="#3c3c3c")
         self.login_button.pack(side="left", padx=10)
         
-        self.create_account_button = tk.Button(button_frame, image=self.create_account_image, command=self.create_account_screen, borderwidth=0, bg="#3c3c3c", activebackground="#3c3c3c")
+        self.create_account_button = tk.Button(button_frame, image=self.create_account_image, command=self.create_account_screen, borderwidth=0, bg="#3c3c3c", highlightthickness=0, activebackground="#3c3c3c")
         self.create_account_button.pack(side="left", padx=10)
 
-        
         background_label.lower(login_frame)
 
     def create_account_screen(self):
@@ -112,31 +105,28 @@ class EWalletApp:
         self.new_password_entry = tk.Entry(self.root, show="*", font=self.font_style, bg="#3c3c3c", fg="#ffffff", insertbackground="#ffffff")
         self.new_password_entry.place(relx=0.5, y=240, anchor="center")
         
-        self.register_button = tk.Button(self.root, image=self.create_account_image, command=self.create_account, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
+        self.register_button = tk.Button(self.root, image=self.create_account_image, command=self.create_account, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
         self.register_button.place(relx=0.4, y=270, anchor="center")
         
-        self.back_button = tk.Button(self.root, image=self.back_image, command=self.create_login_screen, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
+        self.back_button = tk.Button(self.root, image=self.back_image, command=self.create_login_screen, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
         self.back_button.place(relx=0.6, y=270, anchor="center")
     
     def main_screen(self):
         self.clear_screen()
-
-        self.button_canvas = tk.Canvas(self.root, height=100, bg="#1e1e1e", highlightthickness=0)
-        self.button_canvas.place(relx=0.5, y=150, width=400, anchor="center")
         
         self.welcome_label = tk.Label(self.root, text=f"Welcome, {self.current_user}", font=self.font_style, bg="#2b2b2b", fg="#ffffff")
         self.welcome_label.place(relx=0.5, y=100, anchor="center")
         
-        self.change_password_button = tk.Button(self.root, image=self.change_password_image, command=self.change_password_screen, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
+        self.change_password_button = tk.Button(self.root, image=self.change_password_image, command=self.change_password_screen, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
         self.change_password_button.place(relx=0.2, y=150, anchor="center")
         
-        self.set_budget_button = tk.Button(self.root, image=self.set_budget_image, command=self.set_budget_screen, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
+        self.set_budget_button = tk.Button(self.root, image=self.set_budget_image, command=self.set_budget_screen, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
         self.set_budget_button.place(relx=0.4, y=150, anchor="center")
         
-        self.backup_data_button = tk.Button(self.root, image=self.backup_data_image, command=self.backup_data, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
+        self.backup_data_button = tk.Button(self.root, image=self.backup_data_image, command=self.backup_data, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
         self.backup_data_button.place(relx=0.6, y=150, anchor="center")
         
-        self.logout_button = tk.Button(self.root, image=self.logout_image, command=self.logout, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
+        self.logout_button = tk.Button(self.root, image=self.logout_image, command=self.logout, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
         self.logout_button.place(relx=0.8, y=150, anchor="center")
     
     def create_account(self):
@@ -185,11 +175,11 @@ class EWalletApp:
         self.new_password_entry = tk.Entry(self.root, show="*", font=self.font_style, bg="#3c3c3c", fg="#ffffff", insertbackground="#ffffff")
         self.new_password_entry.place(relx=0.5, y=240, anchor="center")
         
-        self.change_password_button = tk.Button(self.root, image=self.change_password_image, command=self.change_password, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
-        self.change_password_button.place(relx=0.4, y=270, anchor="center")
+        self.change_password_button = tk.Button(self.root, image=self.change_password_image, command=self.change_password, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
+        self.change_password_button.place(relx=0.4, y=300, anchor="center")
         
-        self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
-        self.back_button.place(relx=0.6, y=270, anchor="center")
+        self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
+        self.back_button.place(relx=0.6, y=300, anchor="center")
     
     def change_password(self):
         old_password = self.old_password_entry.get()
@@ -212,11 +202,11 @@ class EWalletApp:
         self.budget_entry = tk.Entry(self.root, font=self.font_style, bg="#3c3c3c", fg="#ffffff", insertbackground="#ffffff")
         self.budget_entry.place(relx=0.5, y=150, anchor="center")
         
-        self.set_budget_button = tk.Button(self.root, image=self.set_budget_image, command=self.set_budget, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
-        self.set_budget_button.place(relx=0.4, y=180, anchor="center")
+        self.set_budget_button = tk.Button(self.root, image=self.set_budget_image, command=self.set_budget, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
+        self.set_budget_button.place(relx=0.4, y=200, anchor="center")
         
-        self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#2b2b2b", activebackground="#2b2b2b")
-        self.back_button.place(relx=0.6, y=180, anchor="center")
+        self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#2b2b2b", highlightthickness=0, activebackground="#2b2b2b")
+        self.back_button.place(relx=0.6, y=200, anchor="center")
     
     def set_budget(self):
         budget = self.budget_entry.get()
@@ -243,6 +233,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
     root.mainloop()
-
-
-
