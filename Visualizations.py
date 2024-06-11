@@ -7,6 +7,7 @@ class ExpenseTrackerApp:
         self.root = root
         self.root.title(" Pennywise Expense Tracker")
         self.root.geometry("600x1000")
+        self.root.configure(bg="#2b2b2b")
         
         self.expenses_categories = []
         self.expenses_values = []
