@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 
 class ExpenseTrackerApp:
  def __init__(self, root):
@@ -10,7 +13,7 @@ class ExpenseTrackerApp:
         
         self.expenses_categories = []
         self.expenses_values = []
-        self.autotexts = None
+       
         
         self.title_label= tk.Label(root,text="Budget Tracker Application", font=("Verdana", 12))
         self.title_label.pack(pady=20)
@@ -36,7 +39,8 @@ class ExpenseTrackerApp:
         self.plot_button = tk.Button(self.buttons_frame, text="Plot Pie Chart", command=self.plot_chart, width=15, bg="lightblue")
         self.plot_button.pack(side=tk.LEFT, padx=10)
         self.reset_button = tk.Button(self.buttons_frame, text="Reset", command=self.reset_data, width=15, bg="lightcoral")
-        
+        self.reset_button.pack(side=tk.LEFT, padx=10)
+
         self.listbox_frame = tk.Frame(root)
         self.listbox_frame.pack(pady=20)
         self.expenses_listbox = tk.Listbox(self.listbox_frame, width=50, height=10)
@@ -45,6 +49,9 @@ class ExpenseTrackerApp:
         self.scrollbar.config(command=self.expenses_listbox.yview)
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.expenses_listbox.config(yscrollcommand=self.scrollbar.set)
+
+        self.chart_frame =tk.Frame(root)
+        self.chart_frame.pack(pady=20)
 
  def add_expense(self):
         category = self.category_entry.get()
@@ -73,23 +80,30 @@ class ExpenseTrackerApp:
         messagebox.showwarning("Data Error", "No expenses to plot.")
         return
 
+     fig = Figure(figsize=(6, 4))  
+     ax = fig.add_subplot(111)
      colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99','#c2c2f0','#ffb3e6', '#c4e17f', '#76d7c4', '#f7b7a3', '#ffccff']
-     plt.figure(figsize=(10, 7))
-     wedges, texts, self.autotexts = plt.pie(self.expenses_values, labels=self.expenses_categories, colors=colors[:len(self.expenses_categories)], autopct='%1.1f%%', startangle=140)
+     wedges, texts, autotexts = ax.pie(self.expenses_values, labels=self.expenses_categories, colors=colors[:len(self.expenses_categories)], autopct='%1.1f%%', startangle=140)
+        
+     ax.set_title('Expense Distribution')
     
-     plt.title('Expense Distribution')
-    
-     for i, a in enumerate(self.autotexts):
+     for i, a in enumerate(autotexts):
         a.set_text(f'{self.expenses_values[i]:.2f}\n({a.get_text()})')
     
      plt.legend(wedges, self.expenses_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
      plt.show()
+
+     canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
+     canvas.draw()
+     canvas.get_tk_widget().pack()
 
 
  def reset_data(self):
          self.expenses_categories = []
          self.expenses_values = []
          self.expenses_listbox.delete(0, tk.END)
+         for widget in self.chart_frame.winfo_children():  # Clear the chart frame
+            widget.destroy()
          messagebox.showinfo("Reset", "All data has been reset.")
 
 root = tk.Tk() 
