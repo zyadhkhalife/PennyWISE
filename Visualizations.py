@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox , ttk
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -10,6 +10,7 @@ class ExpenseTrackerApp:
         self.root = root
         self.root.title(" Pennywise Expense Tracker")
         self.root.geometry("600x1000")
+        self.root.configure(bg="#2b2b2b")  
         
         self.expenses_categories = []
         self.expenses_values = []
@@ -24,6 +25,17 @@ class ExpenseTrackerApp:
         self.category_label.pack(side=tk.LEFT, padx=5)
         self.category_entry = tk.Entry(self.category_frame, width=40)
         self.category_entry.pack(side=tk.LEFT, padx=5)
+
+        self.category_scrollbar = ttk.Scrollbar(self.category_frame, orient="vertical")
+        self.category_scrollbar.pack(side=tk.RIGHT, fill="y")
+
+        self.expense_options = ["Food", "Transportation", "Housing", "Entertainment", "Utilities", "Education", "Healthcare", "Other"]
+
+        self.selected_category = tk.StringVar()
+        self.selected_category.set(self.expense_options[0]) 
+        self.category_option = tk.OptionMenu(self.category_frame, self.selected_category, *self.expense_options)
+        self.category_option.config(width=40)
+        self.category_option.pack(side=tk.LEFT, padx=5)
        
         self.value_frame = tk.Frame(root)
         self.value_frame.pack(pady=20)
@@ -50,11 +62,14 @@ class ExpenseTrackerApp:
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.expenses_listbox.config(yscrollcommand=self.scrollbar.set)
 
+        
+    
+
         self.chart_frame =tk.Frame(root)
         self.chart_frame.pack(pady=20)
 
  def add_expense(self):
-        category = self.category_entry.get()
+        category = self.category_combobox.get()  
         value = self.value_entry.get()
 
         
@@ -71,6 +86,9 @@ class ExpenseTrackerApp:
         self.expenses_categories.append(category)
         self.expenses_values.append(value)
         self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
+
+        self.category_combobox.set('') 
+        self.value_entry.delete(0, tk.END)
 
         self.category_entry.delete(0, tk.END)
         self.value_entry.delete(0, tk.END)
@@ -102,9 +120,15 @@ class ExpenseTrackerApp:
          self.expenses_categories = []
          self.expenses_values = []
          self.expenses_listbox.delete(0, tk.END)
-         for widget in self.chart_frame.winfo_children():  # Clear the chart frame
+         for widget in self.chart_frame.winfo_children():  
             widget.destroy()
          messagebox.showinfo("Reset", "All data has been reset.")
+
+def update_category_entry(self, event):
+        selected_category = self.category_combobox.get() 
+        self.value_entry.delete(0, tk.END)  
+        self.value_entry.insert(0, selected_category) 
+
 
 root = tk.Tk() 
 app = ExpenseTrackerApp(root)  
