@@ -23,8 +23,7 @@ class ExpenseTrackerApp:
         self.category_frame.pack(pady=10)
         self.category_label = tk.Label(self.category_frame, text="Expense Category:")
         self.category_label.pack(side=tk.LEFT, padx=5)
-        self.category_entry = tk.Entry(self.category_frame, width=40)
-        self.category_entry.pack(side=tk.LEFT, padx=5)
+       
 
         self.category_scrollbar = ttk.Scrollbar(self.category_frame, orient="vertical")
         self.category_scrollbar.pack(side=tk.RIGHT, fill="y")
@@ -69,7 +68,7 @@ class ExpenseTrackerApp:
         self.chart_frame.pack(pady=20)
 
  def add_expense(self):
-        category = self.category_combobox.get()  
+        category =self.selected_category.get()  
         value = self.value_entry.get()
 
         
@@ -87,10 +86,10 @@ class ExpenseTrackerApp:
         self.expenses_values.append(value)
         self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
 
-        self.category_combobox.set('') 
+       
         self.value_entry.delete(0, tk.END)
 
-        self.category_entry.delete(0, tk.END)
+        
         self.value_entry.delete(0, tk.END)
 
  def plot_chart(self):
@@ -131,7 +130,7 @@ def update_category_entry(self, event):
 
 
 root = tk.Tk() 
-app = ExpenseTrackerApp(root)  
-root.mainloop()  
+a= ExpenseTrackerApp(root)  
+root.mainloop ()  
 
 
