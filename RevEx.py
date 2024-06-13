@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from datetime import datetime
+from datetime import datetime, date
 import json
 from PIL import Image, ImageTk
 
@@ -71,11 +71,11 @@ class ExpenseTrackerApp:
         self.root.title("Expense Tracker")
 
         self.root.geometry("800x600")
-        self.bg_color = "#2e2e2e"
-        self.fg_color = "#ffffff"
-        self.entry_bg_color = "#4d4d4d"
-        self.button_bg_color = "#666666"
-        self.left_bg_color = "#ffffff"
+        self.bg_color = "#ffffff"
+        self.fg_color = "#000000"
+        self.entry_bg_color = "#ffffff"
+        self.button_bg_color = "#cccccc"
+        self.left_bg_color = "#f2f2f2"
 
         self.root.configure(bg=self.bg_color)
         self.create_widgets()
@@ -140,7 +140,7 @@ class ExpenseTrackerApp:
         self.category_label = tk.Label(self.form_frame, text="Category:", font=(font_name, font_size), bg=self.bg_color, fg=self.fg_color)
         self.category_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
         
-        self.category_options = ["Food", "Transport", "Entertainment", "Bills", "Grocery", "Clothes", "Insurance", "Others"]
+        self.category_options = ["Food", "Transport", "Entertainment", "Bills", "Others"]
         self.category_combobox = ttk.Combobox(self.form_frame, values=self.category_options, font=(font_name, font_size), state="readonly")
         self.category_combobox.grid(row=2, column=1, padx=5, pady=5, sticky='w')
         self.category_combobox.current(0)
@@ -157,32 +157,31 @@ class ExpenseTrackerApp:
         self.button_frame = tk.Frame(self.right_frame, bg=self.bg_color)
         self.button_frame.pack(fill=tk.X, padx=10, pady=5)
 
-        self.add_img = Image.open("add_expense.png").resize((50, 50), Image.LANCZOS)
+        self.add_img = Image.open("add_expense.png").resize((150, 60), Image.LANCZOS)
         self.add_img = ImageTk.PhotoImage(self.add_img)
 
-        self.view_all_img = Image.open("view_all_expenses.png").resize((50, 50), Image.LANCZOS)
+        self.view_all_img = Image.open("view_all_expenses.png").resize((150, 60), Image.LANCZOS)
         self.view_all_img = ImageTk.PhotoImage(self.view_all_img)
 
-        self.view_by_category_img = Image.open("view_by_category.png").resize((50, 50), Image.LANCZOS)
+        self.view_by_category_img = Image.open("view_by_category.png").resize((150, 60), Image.LANCZOS)
         self.view_by_category_img = ImageTk.PhotoImage(self.view_by_category_img)
 
-        self.view_total_img = Image.open("view_total_expenses.png").resize((50, 50), Image.LANCZOS)
+        self.view_total_img = Image.open("view_total_expenses.png").resize((150, 60), Image.LANCZOS)
         self.view_total_img = ImageTk.PhotoImage(self.view_total_img)
 
-        self.delete_img = Image.open("delete_expense.png").resize((50, 50), Image.LANCZOS)
+        self.delete_img = Image.open("delete_expense.png").resize((300, 60), Image.LANCZOS)
         self.delete_img = ImageTk.PhotoImage(self.delete_img)
 
         self.add_button = tk.Button(self.button_frame, image=self.add_img, command=self.add_expense, bg=self.bg_color, bd=0)
-        self.add_button.grid(row=0, column=0, pady=(5, 0), padx=0, sticky='ew')
+        self.add_button.grid(row=0, column=0, pady=(5, 0), padx=0, sticky='w')
 
         self.view_all_button = tk.Button(self.button_frame, image=self.view_all_img, command=self.view_expenses, bg=self.bg_color, bd=0)
-        self.view_all_button.grid(row=1, column=0, pady=(5, 0), padx=0, sticky='ew')
-
+        self.view_all_button.grid(row=1, column=0, pady=(5, 0), padx=0, sticky='w')
         self.view_by_category_button = tk.Button(self.button_frame, image=self.view_by_category_img, command=self.view_expenses_by_category, bg=self.bg_color, bd=0)
-        self.view_by_category_button.grid(row=2, column=0, pady=(5, 0), padx=0, sticky='ew')
+        self.view_by_category_button.grid(row=0, column=0, pady=(5, 0), padx=0, sticky='e')
 
         self.view_total_button = tk.Button(self.button_frame, image=self.view_total_img, command=self.view_total_expenses, bg=self.bg_color, bd=0)
-        self.view_total_button.grid(row=3, column=0, pady=(5, 0), padx=0, sticky='ew')
+        self.view_total_button.grid(row=1, column=0, pady=(5, 0), padx=0, sticky='e')
 
         self.delete_button = tk.Button(self.button_frame, image=self.delete_img, command=self.delete_expense, bg=self.bg_color, bd=0)
         self.delete_button.grid(row=4, column=0, pady=(5, 0), padx=0, sticky='ew')
@@ -196,7 +195,9 @@ class ExpenseTrackerApp:
     def add_expense(self):
         try:
             date_str = self.date_entry.get()
-            date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            expense_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            if expense_date > date.today():
+                raise ValueError("The date cannot be in the future")
             amount = float(self.amount_entry.get())
             if amount <= 0:
                 raise ValueError("Amount must be positive")
@@ -204,7 +205,7 @@ class ExpenseTrackerApp:
             if category == "Others":
                 category = self.other_category_entry.get()
             description = self.description_entry.get()
-            self.tracker.add_expense(date, amount, category, description)
+            self.tracker.add_expense(expense_date, amount, category, description)
             self.update_treeview()
             messagebox.showinfo("Success", "Expense added!")
         except ValueError as e:
@@ -258,6 +259,7 @@ if __name__ == "__main__":
     app = ExpenseTrackerApp(root)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
+
 
 
 
