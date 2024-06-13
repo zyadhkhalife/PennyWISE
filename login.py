@@ -22,7 +22,7 @@ class EWalletApp:
         self.create_login_screen()
     
     def create_tab(self):
-        self.tab_canvas = tk.Canvas(self.root, height=50, bg="#1e1e1e", highlightthickness=0)
+        self.tab_canvas = tk.Canvas(self.root, height=50, bg="#424242", highlightthickness=0)
         self.tab_canvas.pack(fill="x")
         self.tab_label = tk.Label(self.tab_canvas, text="PennyWISE", font=("Helvetica", 14, "bold"), bg="#1e1e1e", fg="#ffffff")
         self.tab_label.place(relx=0.5, rely=0.5, anchor="center")
@@ -62,29 +62,29 @@ class EWalletApp:
         login_frame = tk.Frame(self.root, bg="#ffffff")
         login_frame.place(relx=0.75, rely=0.6, anchor="center", relwidth=0.4, relheight=0.7)
 
-        canvas = tk.Canvas(login_frame, bg="#3c3c3c", highlightthickness=0)
+        canvas = tk.Canvas(login_frame, bg="#303030", highlightthickness=0)
         canvas.place(relwidth=1, relheight=1)
         
-        self.login_label = tk.Label(canvas, text="LOGIN", font=("Helvetica", 20, "bold"), bg="#3c3c3c", fg="#ffffff")
+        self.login_label = tk.Label(canvas, text="LOGIN", font=("Helvetica", 20, "bold"), bg="#303030", fg="#ffffff")
         self.login_label.place(relx=0.2, rely=0.1, anchor="center", width=100, height=30)
         
-        self.username_label = tk.Label(canvas, text="Username", font=self.font_style, bg="#3c3c3c", fg="#ffffff")
+        self.username_label = tk.Label(canvas, text="Username", font=self.font_style, bg="#303030", fg="#ffffff")
         self.username_label.place(relx=0.27, rely=0.22, anchor="center")
-        self.username_entry = tk.Entry(canvas, font=self.font_style, bg="#8f8f8f", fg="#000000", insertbackground="#000000")
+        self.username_entry = tk.Entry(canvas, font=self.font_style, bg="#1c1c1c", fg="#000000", insertbackground="#000000")
         self.username_entry.place(relx=0.5, rely=0.27, anchor="center", width=200)
         
-        self.password_label = tk.Label(canvas, text="Password", font=self.font_style, bg="#3c3c3c", fg="#ffffff")
+        self.password_label = tk.Label(canvas, text="Password", font=self.font_style, bg="#303030", fg="#ffffff")
         self.password_label.place(relx=0.27, rely=0.37, anchor="center")
-        self.password_entry = tk.Entry(canvas, show="*", font=self.font_style, bg="#8f8f8f", fg="#000000", insertbackground="#000000")
+        self.password_entry = tk.Entry(canvas, show="*", font=self.font_style, bg="#1c1c1c", fg="#000000", insertbackground="#000000")
         self.password_entry.place(relx=0.5, rely=0.42, anchor="center", width=200)
         
-        button_frame = tk.Frame(canvas, bg="#3c3c3c")
+        button_frame = tk.Frame(canvas, bg="#303030")
         button_frame.place(relx=0.5, rely=0.6, anchor="center")
 
-        self.login_button = tk.Button(button_frame, image=self.login_image, command=self.login, borderwidth=0, bg="#3c3c3c", highlightthickness=0, activebackground="#3c3c3c")
+        self.login_button = tk.Button(button_frame, image=self.login_image, command=self.login, borderwidth=0, bg="#303030", highlightthickness=0, activebackground="#3c3c3c")
         self.login_button.pack(side="left", padx=10)
         
-        self.create_account_button = tk.Button(button_frame, image=self.create_account_image, command=self.create_account_screen, borderwidth=0, bg="#3c3c3c", highlightthickness=0, activebackground="#3c3c3c")
+        self.create_account_button = tk.Button(button_frame, image=self.create_account_image, command=self.create_account_screen, borderwidth=0, bg="#303030", highlightthickness=0, activebackground="#3c3c3c")
         self.create_account_button.pack(side="left", padx=10)
 
         background_label.lower(login_frame)
