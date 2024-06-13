@@ -71,14 +71,10 @@ class ExpenseTrackerApp:
         self.root.title("Expense Tracker")
 
         self.root.geometry("800x600")
-
-        # Dark mode colors for the right side
         self.bg_color = "#2e2e2e"
         self.fg_color = "#ffffff"
         self.entry_bg_color = "#4d4d4d"
         self.button_bg_color = "#666666"
-
-        # White background color for the left side
         self.left_bg_color = "#ffffff"
 
         self.root.configure(bg=self.bg_color)
@@ -143,18 +139,24 @@ class ExpenseTrackerApp:
 
         self.category_label = tk.Label(self.form_frame, text="Category:", font=(font_name, font_size), bg=self.bg_color, fg=self.fg_color)
         self.category_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
-        self.category_entry = tk.Entry(self.form_frame, bg=self.entry_bg_color, fg=self.fg_color, font=(font_name, font_size))
-        self.category_entry.grid(row=2, column=1, padx=5, pady=5, sticky='w')
+        
+        self.category_options = ["Food", "Transport", "Entertainment", "Bills", "Grocery", "Clothes", "Insurance", "Others"]
+        self.category_combobox = ttk.Combobox(self.form_frame, values=self.category_options, font=(font_name, font_size), state="readonly")
+        self.category_combobox.grid(row=2, column=1, padx=5, pady=5, sticky='w')
+        self.category_combobox.current(0)
+        self.category_combobox.bind("<<ComboboxSelected>>", self.on_category_selected)
+
+        self.other_category_entry = tk.Entry(self.form_frame, bg=self.entry_bg_color, fg=self.fg_color, font=(font_name, font_size), state='disabled')
+        self.other_category_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
 
         self.description_label = tk.Label(self.form_frame, text="Description:", font=(font_name, font_size), bg=self.bg_color, fg=self.fg_color)
-        self.description_label.grid(row=3, column=0, padx=5, pady=5, sticky='e')
+        self.description_label.grid(row=4, column=0, padx=5, pady=5, sticky='e')
         self.description_entry = tk.Entry(self.form_frame, bg=self.entry_bg_color, fg=self.fg_color, font=(font_name, font_size))
-        self.description_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
+        self.description_entry.grid(row=4, column=1, padx=5, pady=5, sticky='w')
 
         self.button_frame = tk.Frame(self.right_frame, bg=self.bg_color)
         self.button_frame.pack(fill=tk.X, padx=10, pady=5)
 
-        # Load and resize images
         self.add_img = Image.open("add_expense.png").resize((50, 50), Image.LANCZOS)
         self.add_img = ImageTk.PhotoImage(self.add_img)
 
@@ -185,6 +187,12 @@ class ExpenseTrackerApp:
         self.delete_button = tk.Button(self.button_frame, image=self.delete_img, command=self.delete_expense, bg=self.bg_color, bd=0)
         self.delete_button.grid(row=4, column=0, pady=(5, 0), padx=0, sticky='ew')
 
+    def on_category_selected(self, event):
+        if self.category_combobox.get() == "Others":
+            self.other_category_entry.config(state='normal')
+        else:
+            self.other_category_entry.config(state='disabled')
+
     def add_expense(self):
         try:
             date_str = self.date_entry.get()
@@ -192,7 +200,9 @@ class ExpenseTrackerApp:
             amount = float(self.amount_entry.get())
             if amount <= 0:
                 raise ValueError("Amount must be positive")
-            category = self.category_entry.get()
+            category = self.category_combobox.get()
+            if category == "Others":
+                category = self.other_category_entry.get()
             description = self.description_entry.get()
             self.tracker.add_expense(date, amount, category, description)
             self.update_treeview()
@@ -211,7 +221,9 @@ class ExpenseTrackerApp:
         messagebox.showinfo("Info", "All expenses displayed in the table.")
 
     def view_expenses_by_category(self):
-        category = self.category_entry.get()
+        category = self.category_combobox.get()
+        if category == "Others":
+            category = self.other_category_entry.get()
         expenses = self.tracker.get_expenses_by_category(category)
         for i in self.tree.get_children():
             self.tree.delete(i)
@@ -246,6 +258,8 @@ if __name__ == "__main__":
     app = ExpenseTrackerApp(root)
     root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
+
+
 
 
 
