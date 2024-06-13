@@ -33,8 +33,16 @@ class ExpenseTrackerApp:
         self.selected_category = tk.StringVar()
         self.selected_category.set(self.expense_options[0]) 
         self.category_option = tk.OptionMenu(self.category_frame, self.selected_category, *self.expense_options)
+        self.selected_category.trace("w", self.update_category_entry)
+        
+        self.category_option = tk.OptionMenu(self.category_frame, self.selected_category, *self.expense_options)
         self.category_option.config(width=40)
         self.category_option.pack(side=tk.LEFT, padx=5)
+
+        self.custom_category_var = tk.StringVar()
+        self.custom_category_entry = tk.Entry(self.category_frame, width=40)
+        self.custom_category_entry.pack(side=tk.LEFT, padx=5)
+        self.custom_category_entry.pack_forget() 
        
         self.value_frame = tk.Frame(root)
         self.value_frame.pack(pady=20)
@@ -61,36 +69,45 @@ class ExpenseTrackerApp:
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.expenses_listbox.config(yscrollcommand=self.scrollbar.set)
 
-        
-    
-
         self.chart_frame =tk.Frame(root)
         self.chart_frame.pack(pady=20)
 
+ def update_category_entry(self, *args):
+        selected_category = self.selected_category.get()
+        if selected_category == "Other":
+            self.custom_category_entry.pack(side=tk.LEFT, padx=5) 
+        else:
+            self.custom_category_entry.pack_forget()       
+           
  def add_expense(self):
-        category =self.selected_category.get()  
-        value = self.value_entry.get()
-
-        
-        if not category or not value:
-            messagebox.showwarning("Input Error", "Please enter both category and value.")
+    category = self.selected_category.get()  
+    if category == "Other":
+        category = self.custom_category_entry.get()
+        if not category:
+            messagebox.showwarning("Input Error", "Please enter a custom category.")
             return
+        else:
+             self.custom_category_entry.pack_forget() 
+    value = self.value_entry.get()
+    
+    if not category or not value:
+        messagebox.showwarning("Input Error", "Please enter both category and value.")
+        return
 
-        try:
-            value = float(value)
-        except ValueError:
-            messagebox.showwarning("Input Error", "Please enter a valid number for the value.")
-            return
+    try:
+        value = float(value)
+    except ValueError:
+        messagebox.showwarning("Input Error", "Please enter a valid number for the value.")
+        return
 
-        self.expenses_categories.append(category)
-        self.expenses_values.append(value)
-        self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
+    self.expenses_categories.append(category)
+    self.expenses_values.append(value)
+    self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
 
-       
-        self.value_entry.delete(0, tk.END)
+    self.value_entry.delete(0, tk.END)
+    if self.custom_category_entry.winfo_ismapped():
+        self.custom_category_entry.delete(0, tk.END)
 
-        
-        self.value_entry.delete(0, tk.END)
 
  def plot_chart(self):
      if not self.expenses_categories or not self.expenses_values:
@@ -108,7 +125,8 @@ class ExpenseTrackerApp:
         a.set_text(f'{self.expenses_values[i]:.2f}\n({a.get_text()})')
     
      plt.legend(wedges, self.expenses_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
-     plt.show()
+     for widget in self.chart_frame.winfo_children():
+            widget.destroy()
 
      canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
      canvas.draw()
@@ -123,10 +141,12 @@ class ExpenseTrackerApp:
             widget.destroy()
          messagebox.showinfo("Reset", "All data has been reset.")
 
-def update_category_entry(self, event):
-        selected_category = self.category_combobox.get() 
-        self.value_entry.delete(0, tk.END)  
-        self.value_entry.insert(0, selected_category) 
+def update_category_entry(self, event=None):
+    selected_category = self.selected_category.get()
+    if selected_category == "Other":
+        self.custom_category_entry.pack(side=tk.LEFT, padx=5)
+    else:
+        self.custom_category_entry.pack_forget()
 
 
 root = tk.Tk() 
