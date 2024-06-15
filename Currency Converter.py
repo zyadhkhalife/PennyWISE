@@ -1,11 +1,11 @@
 import requests
 import tkinter as tk
 
-# Your actual ExchangeRate-API key
+
 api_key = 'e4744b3de19fcd2bfd3158ff'
 base_url = 'https://v6.exchangerate-api.com/v6/'
 
-# Function to convert currency using ExchangeRate-API
+
 def convert_currency(api_key, from_currency, to_currency, amount):
     endpoint = f'{api_key}/pair/{from_currency}/{to_currency}'
     response = requests.get(f'{base_url}{endpoint}/{amount}')
@@ -16,7 +16,7 @@ def convert_currency(api_key, from_currency, to_currency, amount):
     else:
         raise ValueError(f"Error: {data['error-type']}")
 
-# Function to handle button click event
+
 def clicked():
     try:
         amount = float(entry1.get())
@@ -29,13 +29,13 @@ def clicked():
     except Exception as e:
         label4.config(text="An error occurred. Please check your inputs.")
 
-# Setup Tkinter window
+
 window = tk.Tk()
 window.geometry("800x600")
 window.title("Pennywise Converter")
 window.configure(bg='#2b2b2b')
 
-# Create and place widgets
+
 label = tk.Label(window, text="Currency Converter", font="Verdana 12 bold", bg='#6dbd81')
 label.place(x=120, y=40)
 
@@ -60,7 +60,7 @@ button.place(x=220, y=250)
 label4 = tk.Label(window, text="", font="Verdana 12 bold", bg='#6dbd81')
 label4.place(x=200, y=300)
 
-# Run the Tkinter event loop
+
 window.mainloop()
 
                 

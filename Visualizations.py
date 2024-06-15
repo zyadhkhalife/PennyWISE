@@ -10,26 +10,34 @@ class ExpenseTrackerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Pennywise Expense Tracker")
-        self.root.geometry("600x1000")
+        self.root.geometry("600x800")
         self.root.configure(bg="#2b2b2b")
-        
+
         self.expenses_categories = []
         self.expenses_values = []
-        
-        self.title_label = tk.Label(root, text="Budget Tracker Application", font=("Verdana", 12))
+
+        self.title_label = tk.Label(root, text="Budget Tracker Application", font=("Verdana", 12), bg="#2b2b2b", fg="white")
         self.title_label.pack(pady=20)
-        
-        self.category_frame = tk.Frame(root)
+
+        self.create_category_frame()
+        self.create_value_frame()
+        self.create_buttons_frame()
+        self.create_listbox_frame()
+        self.create_chart_frame()
+
+        self.load_data()  # Ensure data is loaded when initializing the app
+
+    def create_category_frame(self):
+        self.category_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.category_frame.pack(pady=10)
-        self.category_label = tk.Label(self.category_frame, text="Expense Category:")
+        self.category_label = tk.Label(self.category_frame, text="Expense Category:", bg="#2b2b2b", fg="white")
         self.category_label.pack(side=tk.LEFT, padx=5)
 
         self.expense_options = ["Food", "Transportation", "Housing", "Entertainment", "Utilities", "Education", "Healthcare", "Other"]
-
         self.selected_category = tk.StringVar()
         self.selected_category.set(self.expense_options[0])
         self.selected_category.trace("w", self.update_category_entry)
-        
+
         self.category_option = tk.OptionMenu(self.category_frame, self.selected_category, *self.expense_options)
         self.category_option.config(width=40)
         self.category_option.pack(side=tk.LEFT, padx=5)
@@ -38,15 +46,17 @@ class ExpenseTrackerApp:
         self.custom_category_entry = tk.Entry(self.category_frame, width=40)
         self.custom_category_entry.pack(side=tk.LEFT, padx=5)
         self.custom_category_entry.pack_forget()
-       
-        self.value_frame = tk.Frame(root)
+
+    def create_value_frame(self):
+        self.value_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.value_frame.pack(pady=20)
-        self.value_label = tk.Label(self.value_frame, text="Expense Value:")
+        self.value_label = tk.Label(self.value_frame, text="Expense Value:", bg="#2b2b2b", fg="white")
         self.value_label.pack(side=tk.LEFT, padx=5)
         self.value_entry = tk.Entry(self.value_frame, width=40)
         self.value_entry.pack(side=tk.LEFT, padx=5)
 
-        self.buttons_frame = tk.Frame(root)
+    def create_buttons_frame(self):
+        self.buttons_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.buttons_frame.pack(pady=20)
         self.add_button = tk.Button(self.buttons_frame, text="Add Expense", command=self.add_expense, width=15, bg="lightgreen")
         self.add_button.pack(side=tk.LEFT, padx=10)
@@ -55,7 +65,8 @@ class ExpenseTrackerApp:
         self.reset_button = tk.Button(self.buttons_frame, text="Reset", command=self.reset_data, width=15, bg="lightcoral")
         self.reset_button.pack(side=tk.LEFT, padx=10)
 
-        self.listbox_frame = tk.Frame(root)
+    def create_listbox_frame(self):
+        self.listbox_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.listbox_frame.pack(pady=20)
         self.expenses_listbox = tk.Listbox(self.listbox_frame, width=50, height=10)
         self.expenses_listbox.pack(side=tk.LEFT, padx=10, pady=10)
@@ -64,10 +75,9 @@ class ExpenseTrackerApp:
         self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.expenses_listbox.config(yscrollcommand=self.scrollbar.set)
 
-        self.chart_frame = tk.Frame(root)
+    def create_chart_frame(self):
+        self.chart_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.chart_frame.pack(pady=20)
-
-        self.load_data()  # Ensure data is loaded when initializing the app
 
     def update_category_entry(self, *args):
         selected_category = self.selected_category.get()
@@ -86,7 +96,7 @@ class ExpenseTrackerApp:
             else:
                 self.custom_category_entry.pack_forget()
         value = self.value_entry.get()
-        
+
         if not category or not value:
             messagebox.showwarning("Input Error", "Please enter both category and value.")
             return
@@ -111,22 +121,22 @@ class ExpenseTrackerApp:
         if not self.expenses_categories or not self.expenses_values:
             messagebox.showwarning("Data Error", "No expenses to plot.")
             return
-    
+
         fig = Figure(figsize=(6, 4))
         ax = fig.add_subplot(111)
         colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0', '#ffb3e6', '#c4e17f', '#76d7c4', '#f7b7a3', '#ffccff']
         wedges, texts, autotexts = ax.pie(self.expenses_values, labels=self.expenses_categories, colors=colors[:len(self.expenses_categories)], autopct='%1.1f%%', startangle=140)
-        
+
         ax.set_title('Expense Distribution')
-    
+
         for i, a in enumerate(autotexts):
             a.set_text(f'{self.expenses_values[i]:.2f}\n({a.get_text()})')
-    
+
         plt.legend(wedges, self.expenses_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
-    
+
         for widget in self.chart_frame.winfo_children():
             widget.destroy()
-    
+
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas.draw()
         canvas.get_tk_widget().pack()
@@ -148,16 +158,20 @@ class ExpenseTrackerApp:
 
     def load_data(self):
         if os.path.exists('expenses_data.json'):
-            with open('expenses_data.json', 'r') as json_file:
-                data = json.load(json_file)
-                self.expenses_categories = data.get('categories', [])
-                self.expenses_values = data.get('values', [])
-                for category, value in zip(self.expenses_categories, self.expenses_values):
-                    self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
+            try:
+                with open('expenses_data.json', 'r') as json_file:
+                    data = json.load(json_file)
+                    self.expenses_categories = data.get('categories', [])
+                    self.expenses_values = data.get('values', [])
+                    for category, value in zip(self.expenses_categories, self.expenses_values):
+                        self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
+            except json.JSONDecodeError:
+                messagebox.showwarning("Load Error", "Failed to load data. Starting with empty data.")
 
-root = tk.Tk() 
-app = ExpenseTrackerApp(root)  
-root.mainloop()  
+root = tk.Tk()
+app = ExpenseTrackerApp(root)
+root.mainloop()
+
 
 
 
