@@ -31,7 +31,7 @@ def clicked():
 
 
 window = tk.Tk()
-window.geometry("800x600")
+window.geometry("600x800")
 window.title("Pennywise Converter")
 window.configure(bg='#2b2b2b')
 
