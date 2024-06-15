@@ -25,8 +25,8 @@ class ExpenseTrackerApp:
         self.create_listbox_frame()
         self.create_chart_frame()
 
-        self.load_data()  # Ensure data is loaded when initializing the app
-
+        self.load_data() 
+        
     def create_category_frame(self):
         self.category_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.category_frame.pack(pady=10)
@@ -145,7 +145,7 @@ class ExpenseTrackerApp:
         self.expenses_categories = []
         self.expenses_values = []
         self.expenses_listbox.delete(0, tk.END)
-        self.save_data()  # Ensure data is saved after resetting
+        self.save_data() 
         messagebox.showinfo("Reset", "All data has been reset.")
 
     def save_data(self):
