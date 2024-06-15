@@ -105,7 +105,7 @@ class ExpenseTrackerApp:
         if self.custom_category_entry.winfo_ismapped():
             self.custom_category_entry.delete(0, tk.END)
 
-        self.save_data()  # Ensure data is saved after adding an expense
+        self.save_data() 
 
     def plot_chart(self):
         if not self.expenses_categories or not self.expenses_values:
