@@ -7,7 +7,7 @@ class ExpenseTrackerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Pennywise Expense Tracker")
-        self.root.geometry("600x1000")
+        self.root.geometry("800x600")
         
         self.expenses_categories = []
         self.expenses_values = []
