@@ -21,7 +21,7 @@ class ExpenseTrackerApp:
         self.create_buttons_frame()
         self.create_listbox_frame()
         self.create_chart_frame()
-
+        
     def create_category_frame(self):
         self.category_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.category_frame.pack(pady=10)
@@ -29,7 +29,7 @@ class ExpenseTrackerApp:
         self.category_label.pack(side=tk.LEFT, padx=5)
         self.category_entry = tk.Entry(self.category_frame, width=40)
         self.category_entry.pack(side=tk.LEFT, padx=5)
-
+       
     def create_value_frame(self):
         self.value_frame = tk.Frame(self.root, bg="#2b2b2b")
         self.value_frame.pack(pady=20)
@@ -61,11 +61,11 @@ class ExpenseTrackerApp:
     def create_chart_frame(self):
         self.chart_frame = tk.Frame(self.root)
         self.chart_frame.pack(pady=20)
-        
+
     def add_expense(self):
         category = self.category_entry.get()
         value = self.value_entry.get()
-        
+
         if not category or not value:
             messagebox.showwarning("Input Error", "Please enter both category and value.")
             return
@@ -88,17 +88,18 @@ class ExpenseTrackerApp:
             messagebox.showwarning("Data Error", "No expenses to plot.")
             return
 
-        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc99','#c2c2f0','#ffb3e6', '#c4e17f', '#76d7c4', '#f7b7a3', '#ffccff']
-        fig, ax = plt.subplots(figsize=(10, 7))
-        wedges, texts, self.autotexts = ax.pie(self.expenses_values, labels=self.expenses_categories, colors=colors[:len(self.expenses_categories)], autopct='%1.1f%%', startangle=140)
-    
-        ax.set_title('Expense Distribution')
-    
+        colors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0', '#ffb3e6', '#c4e17f', '#76d7c4', '#f7b7a3', '#ffccff']
+        plt.figure(figsize=(10, 7))
+        wedges, texts, self.autotexts = plt.pie(self.expenses_values, labels=self.expenses_categories, colors=colors[:len(self.expenses_categories)], autopct='%1.1f%%', startangle=140)
+        
+        plt.title('Expense Distribution')
+        
         for i, a in enumerate(self.autotexts):
             a.set_text(f'{self.expenses_values[i]:.2f}\n({a.get_text()})')
-    
-        ax.legend(wedges, self.expenses_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
-    
+        
+        plt.legend(wedges, self.expenses_categories, title="Categories", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+        
+        fig = plt.gcf()
         canvas = FigureCanvasTkAgg(fig, master=self.chart_frame)
         canvas.draw()
         canvas.get_tk_widget().pack()
@@ -109,9 +110,9 @@ class ExpenseTrackerApp:
         self.expenses_listbox.delete(0, tk.END)
         messagebox.showinfo("Reset", "All data has been reset.")
 
-root = tk.Tk() 
-app = ExpenseTrackerApp(root)  
+root = tk.Tk()
+app = ExpenseTrackerApp(root)
 root.mainloop()
-  
+
 
 
