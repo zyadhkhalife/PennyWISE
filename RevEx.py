@@ -140,7 +140,7 @@ class ExpenseTrackerApp:
         self.category_label = tk.Label(self.form_frame, text="Category:", font=(font_name, font_size), bg=self.bg_color, fg=self.fg_color)
         self.category_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')
         
-        self.category_options = ["Food", "Transport", "Entertainment", "Bills", "Others"]
+        self.category_options = ["Food", "Transport", "Entertainment", "Bills",  "Grocery", "Clothes", "Insurance", "Others"]
         self.category_combobox = ttk.Combobox(self.form_frame, values=self.category_options, font=(font_name, font_size), state="readonly")
         self.category_combobox.grid(row=2, column=1, padx=5, pady=5, sticky='w')
         self.category_combobox.current(0)
