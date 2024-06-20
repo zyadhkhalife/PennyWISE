@@ -10,7 +10,7 @@ class EWalletApp:
         self.root.title("PennyWISE")
         self.root.configure(bg="#ffffff")  # Changed to white
         self.root.geometry("800x600")
-        self.root.resizable(False, False)
+        self.root.resizable(True, True)
 
         self.create_tab()
 
@@ -24,7 +24,7 @@ class EWalletApp:
     def create_tab(self):
         self.tab_canvas = tk.Canvas(self.root, height=50, bg="#f0f0f0", highlightthickness=0)  # Changed to light grey
         self.tab_canvas.pack(fill="x")
-        self.tab_label = tk.Label(self.tab_canvas, text="PennyWISE", font=("Helvetica", 14, "bold"),fg="#000000")  # Changed background to light grey and text color to black
+        self.tab_label = tk.Label(self.tab_canvas, text="PennyWISE", font=("Helvetica", 14, "bold"), fg="#000000")  # Changed background to light grey and text color to black
         self.tab_label.place(relx=0.5, rely=0.5, anchor="center")
 
     def load_data(self):
@@ -37,10 +37,6 @@ class EWalletApp:
     def load_images(self):
         self.login_image = self.resize_image("login.png", (80, 60))
         self.create_account_image = self.resize_image("create_account.png", (80, 60))
-        self.change_password_image = self.resize_image("change_password.png", (165, 60))
-        self.set_budget_image = self.resize_image("set_budget.png", (165, 60))
-        self.backup_data_image = self.resize_image("backup_data.png", (165, 60))
-        self.logout_image = self.resize_image("logout.png", (165, 60))
         self.back_image = self.resize_image("back.png", (165, 60))
         self.background_image = self.resize_image("side_image.png", (800, 600))
 
@@ -117,17 +113,20 @@ class EWalletApp:
         self.welcome_label = tk.Label(self.root, text=f"Welcome, {self.current_user}", font=self.font_style, bg="#ffffff", fg="#000000")  # Changed to white background and black text
         self.welcome_label.place(relx=0.5, y=100, anchor="center")
 
-        self.change_password_button = tk.Button(self.root, image=self.change_password_image, command=self.change_password_screen, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
-        self.change_password_button.place(relx=0.2, y=150, anchor="center")
+        self.button_frame = tk.Frame(self.root, bg="#f0f0f0")
+        self.button_frame.place(relx=0.05, rely=0.5, anchor="w", relwidth=0.2, relheight=0.7)
 
-        self.set_budget_button = tk.Button(self.root, image=self.set_budget_image, command=self.set_budget_screen, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
-        self.set_budget_button.place(relx=0.4, y=150, anchor="center")
+        self.change_password_button = tk.Button(self.button_frame, text="Change Password", command=self.change_password_screen, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.change_password_button.pack(pady=10, fill='x')
 
-        self.backup_data_button = tk.Button(self.root, image=self.backup_data_image, command=self.backup_data, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
-        self.backup_data_button.place(relx=0.6, y=150, anchor="center")
+        self.set_budget_button = tk.Button(self.button_frame, text="Set Budget", command=self.set_budget_screen, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.set_budget_button.pack(pady=10, fill='x')
 
-        self.logout_button = tk.Button(self.root, image=self.logout_image, command=self.logout, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
-        self.logout_button.place(relx=0.8, y=150, anchor="center")
+        self.backup_data_button = tk.Button(self.button_frame, text="Back Up Data", command=self.backup_data, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.backup_data_button.pack(pady=10, fill='x')
+
+        self.logout_button = tk.Button(self.button_frame, text="Logout", command=self.logout, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.logout_button.pack(pady=10, fill='x')
 
     def create_account(self):
         username = self.new_username_entry.get()
@@ -175,7 +174,7 @@ class EWalletApp:
         self.new_password_entry = tk.Entry(self.root, show="*", font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000")  # Changed to white background and black text
         self.new_password_entry.place(relx=0.5, y=240, anchor="center")
 
-        self.change_password_button = tk.Button(self.root, image=self.change_password_image, command=self.change_password, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.change_password_button = tk.Button(self.root, text="Change Password", command=self.change_password, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
         self.change_password_button.place(relx=0.4, y=300, anchor="center")
 
         self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
@@ -196,16 +195,16 @@ class EWalletApp:
     def set_budget_screen(self):
         self.clear_screen()
 
-        self.budget_label = tk.Label(self.root, text="Set Budget", font=self.font_style, bg="#ffffff", fg="#000000")  # Changed to white background and black text
+        self.budget_label = tk.Label(self.root, text="Set Budget", font=self.font_style, bg="#ffffff", fg="#000000")
         self.budget_label.place(relx=0.5, y=100, anchor="center")
 
-        self.budget_entry = tk.Entry(self.root, font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000")  # Changed to white background and black text
+        self.budget_entry = tk.Entry(self.root, font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000")
         self.budget_entry.place(relx=0.5, y=150, anchor="center")
 
-        self.set_budget_button = tk.Button(self.root, image=self.set_budget_image, command=self.set_budget, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.set_budget_button = tk.Button(self.root, text="Set Budget", command=self.set_budget, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")
         self.set_budget_button.place(relx=0.4, y=200, anchor="center")
 
-        self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")  # Changed to white background and light grey active background
+        self.back_button = tk.Button(self.root, image=self.back_image, command=self.main_screen, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")
         self.back_button.place(relx=0.6, y=200, anchor="center")
 
     def set_budget(self):
@@ -233,3 +232,4 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
     root.mainloop()
+
