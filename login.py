@@ -1,8 +1,67 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from PIL import Image, ImageTk
+from datetime import datetime, date
 import json
 import os
+
+class Expense:
+    def __init__(self, date, amount, category, description):
+        self.date = date
+        self.amount = amount
+        self.category = category
+        self.description = description
+
+    def __repr__(self):
+        return f"Expense(date={self.date}, amount={self.amount}, category={self.category}, description='{self.description}')"
+
+    def to_dict(self):
+        return {
+            'date': self.date.strftime("%Y-%m-%d"),
+            'amount': self.amount,
+            'category': self.category,
+            'description': self.description
+        }
+
+class ExpenseTracker:
+    def __init__(self):
+        self.expenses = []
+
+    def add_expense(self, date, amount, category, description):
+        expense = Expense(date, amount, category, description)
+        self.expenses.append(expense)
+
+    def list_expenses(self):
+        return self.expenses
+
+    def get_expenses_by_category(self, category):
+        return [expense for expense in self.expenses if expense.category == category]
+
+    def get_total_expenses(self):
+        return sum(expense.amount for expense in self.expenses)
+
+    def delete_expense(self, index):
+        if 0 <= index < len(self.expenses):
+            del self.expenses[index]
+        else:
+            raise IndexError("Expense index out of range")
+
+    def save_to_file(self, filename):
+        with open(filename, 'w') as file:
+            json.dump([expense.to_dict() for expense in self.expenses], file)
+
+    def load_from_file(self, filename):
+        self.expenses = []
+        try:
+            with open(filename, 'r') as file:
+                data = json.load(file)
+                for item in data:
+                    date = datetime.strptime(item['date'], "%Y-%m-%d").date()
+                    self.add_expense(date, float(item['amount']), item['category'], item['description'])
+        except FileNotFoundError:
+            pass
+        except Exception as e:
+            print(f"Error loading from file: {e}")
 
 class EWalletApp:
     def __init__(self, root):
@@ -20,6 +79,9 @@ class EWalletApp:
 
         self.load_images()
         self.create_login_screen()
+
+        self.tracker = ExpenseTracker()
+        self.tracker.load_from_file('expenses.json')
 
     def create_tab(self):
         self.tab_frame = tk.Frame(self.root, height=50, bg="#f0f0f0", highlightthickness=0)
@@ -39,7 +101,7 @@ class EWalletApp:
         self.create_account_image = self.resize_image("create_account.png", (80, 60))
         self.back_image = self.resize_image("back.png", (165, 60))
         self.background_image = self.resize_image("side_image.png", (800, 600))
-        self.profile_image = self.resize_image("profile.png", (50, 50))  # Profile image for View Profile button
+        self.profile_image = self.resize_image("profile.png", (50, 50))
 
     def resize_image(self, image_path, size):
         image = Image.open(image_path)
@@ -120,9 +182,11 @@ class EWalletApp:
         self.right_frame = tk.Frame(self.root, bg="#ffffff")
         self.right_frame.place(relx=0.25, rely=0, relwidth=0.75, relheight=1)
 
-        # View Profile Button
         self.view_profile_button = tk.Button(self.left_frame, image=self.profile_image, command=self.view_profile_screen, borderwidth=0, bg="#f0f0f0", highlightthickness=0, activebackground="#f0f0f0")
         self.view_profile_button.pack(pady=10, fill='x')
+
+        self.expense_tracker_button = tk.Button(self.left_frame, text="Expense Tracker", command=self.expense_tracker_screen, font=self.font_style, borderwidth=0, highlightthickness=0, activebackground="#d0d0d0")
+        self.expense_tracker_button.pack(pady=10, fill='x')
 
         self.change_password_button = tk.Button(self.left_frame, text="Change Password", command=self.change_password_screen, font=self.font_style, borderwidth=0, highlightthickness=0, activebackground="#d0d0d0")
         self.change_password_button.pack(pady=10, fill='x')
@@ -136,7 +200,6 @@ class EWalletApp:
         self.logout_button = tk.Button(self.left_frame, text="Logout", command=self.logout, font=self.font_style, borderwidth=0, highlightthickness=0, activebackground="#d0d0d0")
         self.logout_button.pack(pady=10, fill='x')
 
-        # Settings Label
         self.settings_label = tk.Label(self.left_frame, text="Settings", font=self.font_style, bg="#f0f0f0", fg="#000000")
         self.settings_label.pack(side="bottom", pady=10, fill='x')
 
@@ -243,10 +306,105 @@ class EWalletApp:
         self.current_user = None
         self.create_login_screen()
 
+    def expense_tracker_screen(self):
+        self.clear_right_frame()
+
+        self.expense_label = tk.Label(self.right_frame, text="Expense Tracker", font=self.font_style, bg="#ffffff", fg="#000000")
+        self.expense_label.pack(pady=20)
+
+        self.date_label = tk.Label(self.right_frame, text="Date (YYYY-MM-DD):", font=self.font_style, bg="#ffffff", fg="#000000")
+        self.date_label.pack(pady=10)
+        self.date_entry = tk.Entry(self.right_frame, font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000")
+        self.date_entry.pack(pady=10)
+
+        self.amount_label = tk.Label(self.right_frame, text="Amount:", font=self.font_style, bg="#ffffff", fg="#000000")
+        self.amount_label.pack(pady=10)
+        self.amount_entry = tk.Entry(self.right_frame, font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000")
+        self.amount_entry.pack(pady=10)
+
+        self.category_label = tk.Label(self.right_frame, text="Category:", font=self.font_style, bg="#ffffff", fg="#000000")
+        self.category_label.pack(pady=10)
+        self.category_options = ["Food", "Transport", "Entertainment", "Bills", "Grocery", "Clothes", "Insurance", "Others"]
+        self.category_combobox = ttk.Combobox(self.right_frame, values=self.category_options, font=self.font_style, state="readonly")
+        self.category_combobox.pack(pady=10)
+        self.category_combobox.current(0)
+        self.category_combobox.bind("<<ComboboxSelected>>", self.on_category_selected)
+
+        self.other_category_entry = tk.Entry(self.right_frame, font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000", state='disabled')
+        self.other_category_entry.pack(pady=10)
+
+        self.description_label = tk.Label(self.right_frame, text="Description:", font=self.font_style, bg="#ffffff", fg="#000000")
+        self.description_label.pack(pady=10)
+        self.description_entry = tk.Entry(self.right_frame, font=self.font_style, bg="#ffffff", fg="#000000", insertbackground="#000000")
+        self.description_entry.pack(pady=10)
+
+        self.add_expense_button = tk.Button(self.right_frame, text="Add Expense", command=self.add_expense, font=self.font_style, borderwidth=0, bg="#ffffff", highlightthickness=0, activebackground="#d0d0d0")
+        self.add_expense_button.pack(pady=20)
+
+        self.tree_frame = tk.Frame(self.right_frame, bg="#ffffff")
+        self.tree_frame.pack(fill=tk.BOTH, expand=True)
+
+        style = ttk.Style()
+        style.theme_use('clam')
+        style.configure("Treeview", background="#ffffff", foreground="#000000", fieldbackground="#ffffff", font=self.font_style)
+        style.configure("Treeview.Heading", font=self.font_style, background="#ffffff", foreground="#000000")
+
+        self.tree = ttk.Treeview(self.tree_frame, columns=("date", "amount", "category", "description"), show='headings', style="Treeview")
+        self.tree.heading("date", text="Date")
+        self.tree.heading("amount", text="Amount")
+        self.tree.heading("category", text="Category")
+        self.tree.heading("description", text="Description")
+
+        self.tree.column("date", width=100)
+        self.tree.column("amount", width=100)
+        self.tree.column("category", width=100)
+        self.tree.column("description", width=200)
+
+        self.tree.pack(fill=tk.BOTH, expand=True)
+
+        self.update_treeview()
+
+    def on_category_selected(self, event):
+        if self.category_combobox.get() == "Others":
+            self.other_category_entry.config(state='normal')
+        else:
+            self.other_category_entry.config(state='disabled')
+
+    def add_expense(self):
+        try:
+            date_str = self.date_entry.get()
+            expense_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+            if expense_date > date.today():
+                raise ValueError("The date cannot be in the future")
+            amount = float(self.amount_entry.get())
+            if amount <= 0:
+                raise ValueError("Amount must be positive")
+            category = self.category_combobox.get()
+            if category == "Others":
+                category = self.other_category_entry.get()
+            description = self.description_entry.get()
+            self.tracker.add_expense(expense_date, amount, category, description)
+            self.update_treeview()
+            messagebox.showinfo("Success", "Expense added!")
+        except ValueError as e:
+            messagebox.showerror("Error", f"Invalid input: {e}")
+
+    def update_treeview(self):
+        for i in self.tree.get_children():
+            self.tree.delete(i)
+        for idx, expense in enumerate(self.tracker.list_expenses()):
+            self.tree.insert("", "end", iid=idx, values=(expense.date, expense.amount, expense.category, expense.description))
+
+    def on_closing(self):
+        self.tracker.save_to_file('expenses.json')
+        self.root.destroy()
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = EWalletApp(root)
+    root.protocol("WM_DELETE_WINDOW", app.on_closing)
     root.mainloop()
+
 
 
 
