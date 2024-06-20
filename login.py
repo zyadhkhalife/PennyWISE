@@ -24,7 +24,7 @@ class EWalletApp:
     def create_tab(self):
         self.tab_canvas = tk.Canvas(self.root, height=50, bg="#f0f0f0", highlightthickness=0)  # Changed to light grey
         self.tab_canvas.pack(fill="x")
-        self.tab_label = tk.Label(self.tab_canvas, text="PennyWISE", font=("Helvetica", 14, "bold"), bg="#e0e0e0", fg="#000000")  # Changed background to light grey and text color to black
+        self.tab_label = tk.Label(self.tab_canvas, text="PennyWISE", font=("Helvetica", 14, "bold"),fg="#000000")  # Changed background to light grey and text color to black
         self.tab_label.place(relx=0.5, rely=0.5, anchor="center")
 
     def load_data(self):
