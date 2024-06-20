@@ -157,19 +157,19 @@ class ExpenseTrackerApp:
         self.button_frame = tk.Frame(self.right_frame, bg=self.bg_color)
         self.button_frame.pack(fill=tk.X, padx=10, pady=5)
 
-        self.add_img = Image.open("add_expense.png").resize((150, 60), Image.LANCZOS)
+        self.add_img = Image.open("add_expense.png").resize((150, 50), Image.LANCZOS)
         self.add_img = ImageTk.PhotoImage(self.add_img)
 
-        self.view_all_img = Image.open("view_all_expenses.png").resize((150, 60), Image.LANCZOS)
+        self.view_all_img = Image.open("view_all_expenses.png").resize((150, 50), Image.LANCZOS)
         self.view_all_img = ImageTk.PhotoImage(self.view_all_img)
 
-        self.view_by_category_img = Image.open("view_by_category.png").resize((150, 60), Image.LANCZOS)
+        self.view_by_category_img = Image.open("view_by_category.png").resize((150, 50), Image.LANCZOS)
         self.view_by_category_img = ImageTk.PhotoImage(self.view_by_category_img)
 
-        self.view_total_img = Image.open("view_total_expenses.png").resize((150, 60), Image.LANCZOS)
+        self.view_total_img = Image.open("view_total_expenses.png").resize((150, 50), Image.LANCZOS)
         self.view_total_img = ImageTk.PhotoImage(self.view_total_img)
 
-        self.delete_img = Image.open("delete_expense.png").resize((300, 60), Image.LANCZOS)
+        self.delete_img = Image.open("delete_expense.png").resize((300, 50), Image.LANCZOS)
         self.delete_img = ImageTk.PhotoImage(self.delete_img)
 
         self.add_button = tk.Button(self.button_frame, image=self.add_img, command=self.add_expense, bg=self.bg_color, bd=0)
