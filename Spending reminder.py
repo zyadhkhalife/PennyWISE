@@ -1,49 +1,48 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
-import datetime
+from tkinter import messagebox
 
-class ReminderApp:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Spending Reminder")
-        self.master.geometry("600x1000")
-        self.master.configure(background="#f0f0f0")
+class SpendingReminderApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Spending Reminder")
 
-        self.label = tk.Label(self.master, text="Spending Reminder", font=("Verdana", 12), pady=10)
-        self.label.pack()
+        # Variables
+        self.spending_limit = tk.DoubleVar()
+        self.current_spending = tk.DoubleVar()
+        self.new_spending = tk.DoubleVar()
 
-        self.hour_var = tk.StringVar(value="08")
-        self.minute_var = tk.StringVar(value="00")
+        # Labels and Entries
+        tk.Label(root, text="Set Spending Limit:").grid(row=0, column=0, padx=10, pady=10)
+        tk.Entry(root, textvariable=self.spending_limit).grid(row=0, column=1, padx=10, pady=10)
 
-        self.hour_label = tk.Label(self.master, text="Hour:")
-        self.hour_label.pack()
-        self.hour_menu = ttk.Combobox(self.master, textvariable=self.hour_var, values=[str(i).zfill(2) for i in range(24)])
-        self.hour_menu.pack()
+        tk.Label(root, text="Current Spending:").grid(row=1, column=0, padx=10, pady=10)
+        tk.Entry(root, textvariable=self.current_spending, state='readonly').grid(row=1, column=1, padx=10, pady=10)
 
-        self.minute_label = tk.Label(self.master, text="Minute:")
-        self.minute_label.pack()
-        self.minute_menu = ttk.Combobox(self.master, textvariable=self.minute_var, values=[str(i).zfill(2) for i in range(60)])
-        self.minute_menu.pack()
+        tk.Label(root, text="Add New Spending:").grid(row=2, column=0, padx=10, pady=10)
+        tk.Entry(root, textvariable=self.new_spending).grid(row=2, column=1, padx=10, pady=10)
 
-        self.reminder_button = tk.Button(self.master, text="Set Reminder", command=self.set_reminder)
-        self.reminder_button.pack()
+        # Buttons
+        tk.Button(root, text="Add Spending", command=self.add_spending).grid(row=3, column=0, columnspan=2, pady=10)
+        tk.Button(root, text="Reset", command=self.reset_spending).grid(row=4, column=0, columnspan=2, pady=10)
 
-    def set_reminder(self):
-        hour = int(self.hour_var.get())
-        minute = int(self.minute_var.get())
+    def add_spending(self):
+        try:
+            new_spending_amount = self.new_spending.get()
+            self.current_spending.set(self.current_spending.get() + new_spending_amount)
+            self.new_spending.set(0)
 
-        reminder_time = datetime.time(hour, minute)
-        now = datetime.datetime.now().time()
-        
-        if now < reminder_time:
-            messagebox.showinfo("Reminder Set", f"A daily reminder has been set for {reminder_time}.")
-        else:
-            messagebox.showinfo("Reminder Set", f"Reminder for today already passed. Next reminder will be set for tomorrow at {reminder_time}.")
+            if self.current_spending.get() > self.spending_limit.get():
+                messagebox.showwarning("Warning", "You have exceeded your spending limit!")
 
-def main():
-    root = tk.Tk()
-    app = ReminderApp(root)
-    root.mainloop()
+        except tk.TclError:
+            messagebox.showerror("Error", "Please enter a valid number")
+
+    def reset_spending(self):
+        self.current_spending.set(0)
+        self.spending_limit.set(0)
+        self.new_spending.set(0)
 
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    app = SpendingReminderApp(root)
+    root.mainloop()
