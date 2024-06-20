@@ -78,7 +78,7 @@ class ExpenseTrackerApp:
 
         self.expenses_categories.append(category)
         self.expenses_values.append(value)
-        self.expenses_listbox.insert(tk.END, f"{category}: ${value:.2f}")
+        self.expenses_listbox.insert(tk.END, f"{category}: RM{value:.2f}")
 
         self.category_entry.delete(0, tk.END)
         self.value_entry.delete(0, tk.END)
