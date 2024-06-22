@@ -45,13 +45,13 @@ entry1.pack(pady=5)
 label2 = tk.Label(window, text="From Currency:", font="Verdana 12", bg='#6dbd81', fg='white')
 label2.pack(pady=5)
 from_currency_combobox = ttk.Combobox(window, values=currencies, font="Verdana 12")
-from_currency_combobox.current(0)  # Set default value
+from_currency_combobox.current(0)  
 from_currency_combobox.pack(pady=5)
 
 label3 = tk.Label(window, text="To Currency:", font="Verdana 12", bg='#6dbd81', fg='white')
 label3.pack(pady=5)
 to_currency_combobox = ttk.Combobox(window, values=currencies, font="Verdana 12")
-to_currency_combobox.current(1)  # Set default value
+to_currency_combobox.current(1)  
 to_currency_combobox.pack(pady=5)
 
 button = tk.Button(window, text="Convert", font="Verdana 12 bold", command=clicked, bg='#6dbd81', fg='white')

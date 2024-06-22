@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import datetime
+from tkcalendar import DateEntry
 
 class ReminderApp:
     def __init__(self, master):
@@ -12,33 +13,32 @@ class ReminderApp:
         self.label = tk.Label(self.master, text="Spending Reminder", font=("Verdana", 12), pady=10)
         self.label.pack()
 
-        self.hour_var = tk.StringVar(value="08")
-        self.minute_var = tk.StringVar(value="00")
+        self.date_label = tk.Label(self.master, text="Select Date:")
+        self.date_label.pack()
+        self.date_entry = DateEntry(self.master, date_pattern='yyyy-mm-dd')
+        self.date_entry.pack()
 
-        self.hour_label = tk.Label(self.master, text="Hour:")
-        self.hour_label.pack()
-        self.hour_menu = ttk.Combobox(self.master, textvariable=self.hour_var, values=[str(i).zfill(2) for i in range(24)])
-        self.hour_menu.pack()
-
-        self.minute_label = tk.Label(self.master, text="Minute:")
-        self.minute_label.pack()
-        self.minute_menu = ttk.Combobox(self.master, textvariable=self.minute_var, values=[str(i).zfill(2) for i in range(60)])
-        self.minute_menu.pack()
+        self.amount_label = tk.Label(self.master, text="Amount to Spend:")
+        self.amount_label.pack()
+        self.amount_entry = tk.Entry(self.master)
+        self.amount_entry.pack()
 
         self.reminder_button = tk.Button(self.master, text="Set Reminder", command=self.set_reminder)
         self.reminder_button.pack()
 
     def set_reminder(self):
-        hour = int(self.hour_var.get())
-        minute = int(self.minute_var.get())
+        try:
+            amount = float(self.amount_entry.get())
+            reminder_date = self.date_entry.get_date()
 
-        reminder_time = datetime.time(hour, minute)
-        now = datetime.datetime.now().time()
-        
-        if now < reminder_time:
-            messagebox.showinfo("Reminder Set", f"A daily reminder has been set for {reminder_time}.")
-        else:
-            messagebox.showinfo("Reminder Set", f"Reminder for today already passed. Next reminder will be set for tomorrow at {reminder_time}.")
+            now = datetime.datetime.now().date()
+            
+            if now <= reminder_date:
+                messagebox.showinfo("Reminder Set", f"A reminder has been set for {reminder_date}. You plan to spend ${amount:.2f}.")
+            else:
+                messagebox.showinfo("Reminder Set", f"The selected date has already passed. Please choose a future date.")
+        except ValueError:
+            messagebox.showerror("Invalid Input", "Please enter a valid amount.")
 
 def main():
     root = tk.Tk()
@@ -47,3 +47,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
