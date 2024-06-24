@@ -1,0 +1,17 @@
+[
+    {
+        "amount": 500.0,
+        "category": "Food",
+        "date": "2023-06-24"
+    },
+    {
+        "amount": 2.0,
+        "category": "dada",
+        "date": "2023-06-06"
+    },
+    {
+        "amount": 100.0,
+        "category": "food",
+        "date": "2024-06-02"
+    }
+]

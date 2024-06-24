@@ -1,0 +1,22 @@
+[
+    {
+        "amount": 2000.0,
+        "category": "Food",
+        "date": "2024-06-23"
+    },
+    {
+        "amount": 200.0,
+        "category": "Food",
+        "date": "2021-06-17"
+    },
+    {
+        "amount": 900.0,
+        "category": "900",
+        "date": "2024-06-25"
+    },
+    {
+        "amount": 10000000000.0,
+        "category": "you",
+        "date": "2024-06-25"
+    }
+]
